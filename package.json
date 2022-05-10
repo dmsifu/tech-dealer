@@ -1,0 +1,24 @@
+{
+  "name": "ps5pricetracker",
+  "version": "1.0.0",
+  "description": "ps5 price tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "author": "dmsifu",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "got-scraping": "^3.2.9",
+    "jsdom": "^19.0.0",
+    "xpath-html": "^1.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
