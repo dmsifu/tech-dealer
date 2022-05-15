@@ -1,11 +1,11 @@
-const ps5Prices = require('../models/ps5Prices')
+const techDeals = require('../models/techDeals')
 
 //@desc     get todays prices
 //@route    GET /api/todaysPrices
 //@acess    Private
-const getTodaysPrices = async (req, res) => {
+const getTodaysOffers = async (req, res) => {
     try{
-        const data = await ps5Prices.find()
+        const data = await techDeals.find()
         res.status(200).json(data)
     }
     catch(err){
@@ -13,4 +13,4 @@ const getTodaysPrices = async (req, res) => {
     }
 }
 
-module.exports = getTodaysPrices
+module.exports = getTodaysOffers

@@ -2,13 +2,13 @@ const express = require('express')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT
 const connectDB = require('./config/db')
-const scheduledJobs = require('./scheduled jobs/getTodaysData')
+const scrapeTodaysData = require('./scheduled jobs/getTodaysData')
 
 connectDB()
 
 const app = express()
 
-scheduledJobs()
+scrapeTodaysData()
 
 app.use('/api/data', require('./routes/routes'))
 app.use(express.json())
