@@ -3,19 +3,29 @@ const { gotScraping } = require('got-scraping');
 const cheerio = require('cheerio');
 const techDeals = require('../models/techDeals')
 
-// async function addDataToDB(){
-//     const gamestopData = await getData(gamestopURL, '.actual-price', '#add-to-cart', '#primary-details')
-//     const bestbuyData = await getData(bestbuyURL, '.priceView-customer-price', '.fulfillment-add-to-cart-button')
-//     const neweggData = await getData(neweggURL, '.price-current', '.product-flag')
-//     const walmartData = await getData(walmartURL, 'span[itemprop = "price"]', 'span:contains("Add to cart")')
-    
-//     const finished = techDeals.create({
-//         gamestop: gamestopData,
-//         bestbuy: bestbuyData,
-//         newegg: neweggData,
-//         walmart: walmartData
-//     })
-//}
+function scrapeTodaysData() {
+    addDataToDB()
+    //const scheduleGetTodaysData =  cron.schedule('4 7 * * * 1-7', addDataToDB)
+    //scheduleGetTodaysData.start()
+}
+
+async function addDataToDB(){
+    try {
+        const bestbuy = await getAllBestBuyDeals()
+        const newegg = await getAllNeweggDeals()
+        const amazon = await getAllAmazonDeals()
+        
+        const finished = techDeals.create({
+            bestbuy: bestbuy,
+            newegg: newegg,
+            amazon: amazon
+        })
+        console.log('data added to db')
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 async function getTechDealsBestBuy(category){
     try {
@@ -64,7 +74,6 @@ async function getAllBestBuyDeals(){
         laptops: laptops,
         graphicsCards: graphicsCards
     }
-    console.log(allBestBuyDeals)
     return allBestBuyDeals
 }
 
@@ -118,30 +127,35 @@ async function getAllTargetDeals(){
 }
 
 async function getTechDealsNewegg(url){
-    const res = await gotScraping(url)
-    const $ = cheerio.load(res.body)
-    const offers = []
-    const listOfProducts = $('.item-cells-wrap.border-cells.items-grid-view.four-cells.expulsion-one-cell')
-
-    listOfProducts.find('.item-container').each((i, element) => {
-        const name = $(element).find('.item-title').text()
-        const offerPriceOne = $(element).find('.price-current strong').text()
-        const offerPriceTwo = $(element).find('.price-current sup').text()
-        const originalPrice = $(element).find('.price-was-data').text()
-        const productLink = $(element).find('.item-title').attr('href')
-        const productImageLink = $(element).find('img').attr('src')
-        if(originalPrice === ''){return}
-
-        offers.push({
-            title: name,
-            offerPrice: `$${offerPriceOne}${offerPriceTwo}`,
-            originalPrice: originalPrice,
-            productLink: productLink,
-            productImageLink: productImageLink,
-        })
-    })
+    try {
+        const res = await gotScraping(url)
+        const $ = cheerio.load(res.body)
+        const offers = []
+        const listOfProducts = $('.item-cells-wrap.border-cells.items-grid-view.four-cells.expulsion-one-cell')
     
-    return offers
+        listOfProducts.find('.item-container').each((i, element) => {
+            const name = $(element).find('.item-title').text()
+            const offerPriceOne = $(element).find('.price-current strong').text()
+            const offerPriceTwo = $(element).find('.price-current sup').text()
+            const originalPrice = $(element).find('.price-was-data').text()
+            const productLink = $(element).find('.item-title').attr('href')
+            const productImageLink = $(element).find('img').attr('src')
+            if(originalPrice === ''){return}
+    
+            offers.push({
+                title: name,
+                offerPrice: `$${offerPriceOne}${offerPriceTwo}`,
+                originalPrice: originalPrice,
+                productLink: productLink,
+                productImageLink: productImageLink,
+            })
+        })
+        
+        return offers
+        
+    } catch (error) {
+        return {message: error}
+    }
 }
 
 async function getAllNeweggDeals(){
@@ -154,17 +168,93 @@ async function getAllNeweggDeals(){
         laptops: laptops,
         graphicsCards: graphicsCards
     }
-    console.log(allNeweggDeals)
     return allNeweggDeals
 
 }
 
-function scrapeTodaysData() {
-    getAllNeweggDeals()
-    //getAllTargetDeals()
-    //getAllBestBuyDeals()
-    //const scheduleGetTodaysData =  cron.schedule('4 7 * * * 1-7', addDataToDB)
-    //scheduleGetTodaysData.start()
+async function getTechDealsWalmart(url){
+    try {
+        const res = await gotScraping(url)
+        const $ = cheerio.load(res.body)
+        const offers = []
+        const listOfProducts = $('.flex.flex-wrap.w-100.flex-grow-0.flex-shrink-0.ph2.pr0-xl.pl4-xl.mt0-xl.mt3')
+    
+        listOfProducts.find('div[data-testid=list-view]').each((i, element)=>{
+            const name = $(element).find('.f6.f5-l.normal.dark-gray.mb0.mt1.lh-title').text()
+            offers.push({
+                title: name 
+            })
+        })
+        console.log(offers)
+        
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+async function getAllWalmartDeals(){
+    const tvs = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/tvs')
+    const laptops = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/computers?cat_id=3944_3951_1089430_132960&sort=best_seller&page=1&affinityOverride=default')
+    const audio = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/headphones-speakers-and-video')
+
+    const allWalmartDeals = {
+        tvs: tvs,
+        laptops: laptops,
+        audio: audio
+    }
+    console.log(allWalmartDeals)
+    return allWalmartDeals
+
+}
+
+async function getTechDealsAmazon(url){
+    try {
+        setTimeout(()=>{
+            return 
+        }, Math.floor(Math.random() * 2000))
+
+        const res = await gotScraping(url)
+        const $ = cheerio.load(res.body)
+        const offers = []
+        const listOfProducts = $('.s-main-slot.s-result-list.s-search-results.sg-row')
+    
+        listOfProducts.find('.a-section.a-spacing-base').each((i,element)=>{
+            const name = $(element).find('.a-size-base-plus.a-color-base.a-text-normal').text()
+            const offerPrice = $(element).find('.a-price[data-a-color=base] .a-offscreen').text()
+            const originalPrice = $(element).find('.a-price[data-a-color=secondary] .a-offscreen').text()
+            const productLink = $(element).find('.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal').attr('href')
+            const productImageLink = $(element).find('.s-image').attr('src')
+            if(originalPrice === ''){return}
+    
+            offers.push({
+                title: name,
+                offerPrice: offerPrice,
+                originalPrice: originalPrice,
+                productLink: `https://www.amazon.com/${productLink}`,
+                productImageLink: productImageLink
+            })
+        })
+        return offers
+
+    } catch (error) {
+        return {message: error}
+    }
+
+}
+
+async function getAllAmazonDeals(){
+    const tvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true&qid=1652741255&rnid=23566063011')
+    const laptops = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=565108&rh=n%3A565108%2Cp_n_deal_type%3A23566065011&dc&fs=true&qid=1652743734&rnid=23566063011')
+    const graphicsCards = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=17923671011&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A284822%2Cp_n_deal_type%3A23566065011&dc&qid=1652744215&rnid=17923671011')
+
+    const allAmazonDeals = {
+        tvs: tvs,
+        laptops: laptops,
+        graphicsCards: graphicsCards
+    }
+    return allAmazonDeals
+}
+
+
 
 module.exports = scrapeTodaysData
