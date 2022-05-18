@@ -4,22 +4,28 @@ const cheerio = require('cheerio');
 const techDeals = require('../models/techDeals')
 
 function scrapeTodaysData() {
-    addDataToDB()
+    getAllWalmartDeals()
+    //addDataToDB()
     //const scheduleGetTodaysData =  cron.schedule('4 7 * * * 1-7', addDataToDB)
     //scheduleGetTodaysData.start()
 }
 
 async function addDataToDB(){
     try {
-        const bestbuy = await getAllBestBuyDeals()
-        const newegg = await getAllNeweggDeals()
-        const amazon = await getAllAmazonDeals()
+        const [bestbuy, newegg, amazon] = await Promise.all(
+            [
+                getAllBestBuyDeals(), 
+                getAllNeweggDeals(), 
+                getAllAmazonDeals()
+            ])
         
         const finished = techDeals.create({
             bestbuy: bestbuy,
             newegg: newegg,
             amazon: amazon
         })
+
+        await techDeals.findOneAndReplace({},finished)
         console.log('data added to db')
         
     } catch (error) {
@@ -52,9 +58,9 @@ async function getTechDealsBestBuy(category){
                     productImageLink: productImageLink,
                 })
             })
-            setTimeout(()=> {
-                return
-            }, 1000)
+            setTimeout(()=>{
+                return 
+            }, Math.floor(Math.random() * 3000) + 1000)
         }
             
         return offers
@@ -102,9 +108,9 @@ async function getTechDealsTarget(url){
             //         productImageLink: productImageLink,
             //     })
             //})
-            setTimeout(()=> {
-                return
-            }, 1000)
+            setTimeout(()=>{
+                return 
+            }, Math.floor(Math.random() * 3000) + 1000)
         }
             
         return offers
@@ -128,6 +134,9 @@ async function getAllTargetDeals(){
 
 async function getTechDealsNewegg(url){
     try {
+        setTimeout(()=>{
+            return 
+        }, Math.floor(Math.random() * 3000) + 1000)
         const res = await gotScraping(url)
         const $ = cheerio.load(res.body)
         const offers = []
@@ -174,6 +183,10 @@ async function getAllNeweggDeals(){
 
 async function getTechDealsWalmart(url){
     try {
+        setTimeout(()=>{
+            return 
+        }, Math.floor(Math.random() * 3000) + 1000)
+
         const res = await gotScraping(url)
         const $ = cheerio.load(res.body)
         const offers = []
@@ -181,11 +194,21 @@ async function getTechDealsWalmart(url){
     
         listOfProducts.find('div[data-testid=list-view]').each((i, element)=>{
             const name = $(element).find('.f6.f5-l.normal.dark-gray.mb0.mt1.lh-title').text()
+            const offerPrice = $(element).find('.b.black.f5.mr1.mr2-xl.lh-copy.f4-l').text()
+            const originalPrice = $(element).find('.f7.f6-l.strike.gray.mr3').text()
+            const productLink = $(element).find('.sans-serif.mid-gray.relative.flex.flex-column.w-100 a').attr('href')
+            const productImageLink = $(element).find('img').attr('src')
+            if(originalPrice === ''){return}
+    
             offers.push({
-                title: name 
+                title: name,
+                offerPrice: offerPrice,
+                originalPrice: originalPrice,
+                productLink: `https://www.walmart.com/${productLink}`,
+                productImageLink: productImageLink,
             })
         })
-        console.log(offers)
+        return offers
         
     } catch (error) {
         console.log(error)
@@ -211,7 +234,7 @@ async function getTechDealsAmazon(url){
     try {
         setTimeout(()=>{
             return 
-        }, Math.floor(Math.random() * 2000))
+        }, Math.floor(Math.random() * 3000) + 1000)
 
         const res = await gotScraping(url)
         const $ = cheerio.load(res.body)
