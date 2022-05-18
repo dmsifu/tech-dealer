@@ -26,6 +26,14 @@ const techDeals = mongoose.Schema(
             originalPrice: String,
             productLink: String,
             productImageLink: String
+        }],
+        audio: [{
+            title: String,
+            brand: String,
+            offerPrice: String,
+            originalPrice: String,
+            productLink: String,
+            productImageLink: String
         }]
     },
     newegg: {
@@ -54,6 +62,32 @@ const techDeals = mongoose.Schema(
             productImageLink: String
         }]
     },
+    walmart: {
+        tvs: [{
+            title: String,
+            brand: String,
+            offerPrice: String,
+            originalPrice: String,
+            productLink: String,
+            productImageLink: String
+        }],
+        laptops: [{
+            title: String,
+            brand: String,
+            offerPrice: String,
+            originalPrice: String,
+            productLink: String,
+            productImageLink: String
+        }],
+        audio: [{
+            title: String,
+            brand: String,
+            offerPrice: String,
+            originalPrice: String,
+            productLink: String,
+            productImageLink: String
+        }]
+    },
     amazon: {
         tvs: [{
             title: String,
@@ -72,6 +106,14 @@ const techDeals = mongoose.Schema(
             productImageLink: String
         }],
         graphicsCards: [{
+            title: String,
+            brand: String,
+            offerPrice: String,
+            originalPrice: String,
+            productLink: String,
+            productImageLink: String
+        }],
+        audio: [{
             title: String,
             brand: String,
             offerPrice: String,

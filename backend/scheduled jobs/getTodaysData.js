@@ -4,28 +4,28 @@ const cheerio = require('cheerio');
 const techDeals = require('../models/techDeals')
 
 function scrapeTodaysData() {
-    getAllWalmartDeals()
-    //addDataToDB()
     //const scheduleGetTodaysData =  cron.schedule('4 7 * * * 1-7', addDataToDB)
     //scheduleGetTodaysData.start()
 }
 
 async function addDataToDB(){
     try {
-        const [bestbuy, newegg, amazon] = await Promise.all(
+        const [bestbuy, newegg, walmart, amazon] = await Promise.all(
             [
                 getAllBestBuyDeals(), 
-                getAllNeweggDeals(), 
+                getAllNeweggDeals(),
+                getAllWalmartDeals(),
                 getAllAmazonDeals()
             ])
         
         const finished = techDeals.create({
             bestbuy: bestbuy,
             newegg: newegg,
+            walmart: walmart,
             amazon: amazon
         })
 
-        await techDeals.findOneAndReplace({},finished)
+        await techDeals.findOneAndUpdate({_id: '6285462611f14ac297de8853'},finished)
         console.log('data added to db')
         
     } catch (error) {
@@ -74,11 +74,13 @@ async function getAllBestBuyDeals(){
     const tvs = await getTechDealsBestBuy('abcat0101001')
     const laptops = await getTechDealsBestBuy('pcmcat138500050001')
     const graphicsCards = await getTechDealsBestBuy('abcat0507002')
+    const audio = await getTechDealsBestBuy('pcmcat144700050004')
 
     const allBestBuyDeals = {
         tvs: tvs,
         laptops: laptops,
-        graphicsCards: graphicsCards
+        graphicsCards: graphicsCards,
+        audio: audio
     }
     return allBestBuyDeals
 }
@@ -183,80 +185,86 @@ async function getAllNeweggDeals(){
 
 async function getTechDealsWalmart(url){
     try {
-        setTimeout(()=>{
-            return 
-        }, Math.floor(Math.random() * 3000) + 1000)
-
-        const res = await gotScraping(url)
-        const $ = cheerio.load(res.body)
         const offers = []
-        const listOfProducts = $('.flex.flex-wrap.w-100.flex-grow-0.flex-shrink-0.ph2.pr0-xl.pl4-xl.mt0-xl.mt3')
-    
-        listOfProducts.find('div[data-testid=list-view]').each((i, element)=>{
-            const name = $(element).find('.f6.f5-l.normal.dark-gray.mb0.mt1.lh-title').text()
-            const offerPrice = $(element).find('.b.black.f5.mr1.mr2-xl.lh-copy.f4-l').text()
-            const originalPrice = $(element).find('.f7.f6-l.strike.gray.mr3').text()
-            const productLink = $(element).find('.sans-serif.mid-gray.relative.flex.flex-column.w-100 a').attr('href')
-            const productImageLink = $(element).find('img').attr('src')
-            if(originalPrice === ''){return}
-    
-            offers.push({
-                title: name,
-                offerPrice: offerPrice,
-                originalPrice: originalPrice,
-                productLink: `https://www.walmart.com/${productLink}`,
-                productImageLink: productImageLink,
+        for (let i = 1; i < 6; i++) {
+            setTimeout(()=>{
+                return 
+            }, Math.floor(Math.random() * 2000) + 1000)
+            const res = await gotScraping(`${url}&page=${i}&affinityOverride=default`)
+            const $ = cheerio.load(res.body)
+            const listOfProducts = $('.flex.flex-wrap.w-100.flex-grow-0.flex-shrink-0.ph2.pr0-xl.pl4-xl.mt0-xl.mt3')
+            if($('.mid-gray.lh-copy.mb7.tc').text().length > 0){break}
+        
+            listOfProducts.find('.sans-serif.mid-gray.relative.flex.flex-column.w-100').each((i, element)=>{
+                const name = $(element).find('.f6.f5-l.normal.dark-gray.mb0.mt1.lh-title').text()
+                const offerPrice = $(element).find('.b.black.f5.mr1.mr2-xl.lh-copy.f4-l').text()
+                const originalPrice = $(element).find('.f7.f6-l.strike.gray.mr3').text()
+                const productLink = $(element).find('.sans-serif.mid-gray.relative.flex.flex-column.w-100 a').attr('href')
+                const productImageLink = $(element).find('img').attr('src')
+                if(originalPrice === ''){return}
+        
+                offers.push({
+                    title: name,
+                    offerPrice: offerPrice,
+                    originalPrice: originalPrice,
+                    productLink: `https://www.walmart.com/${productLink}`,
+                    productImageLink: productImageLink,
+                })
             })
-        })
+            
+        }
         return offers
         
     } catch (error) {
-        console.log(error)
+        return {message: error}
     }
 }
 
 async function getAllWalmartDeals(){
-    const tvs = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/tvs')
-    const laptops = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/computers?cat_id=3944_3951_1089430_132960&sort=best_seller&page=1&affinityOverride=default')
-    const audio = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/headphones-speakers-and-video')
+    const tvs = await getTechDealsWalmart('https://www.walmart.com/browse/tv-video/shop-tvs-by-size/3944_1060825_2489948?facet=special_offers%3AReduced+Price')
+    const laptops = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/computers?facet=special_offers%3AReduced+Price%7C%7Cspecial_offers%3ARollback%7C%7Cspecial_offers%3AClearance')
+    const audio = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/headphones-speakers-and-video?facet=special_offers%3AReduced+Price%7C%7Cspecial_offers%3ARollback')
 
     const allWalmartDeals = {
         tvs: tvs,
         laptops: laptops,
         audio: audio
     }
-    console.log(allWalmartDeals)
     return allWalmartDeals
 
 }
 
 async function getTechDealsAmazon(url){
     try {
-        setTimeout(()=>{
-            return 
-        }, Math.floor(Math.random() * 3000) + 1000)
-
-        const res = await gotScraping(url)
-        const $ = cheerio.load(res.body)
         const offers = []
-        const listOfProducts = $('.s-main-slot.s-result-list.s-search-results.sg-row')
+        for (let i = 1; i < 6; i++) {
+            setTimeout(()=>{
+                return 
+            }, Math.floor(Math.random() * 2000) + 1000)
     
-        listOfProducts.find('.a-section.a-spacing-base').each((i,element)=>{
-            const name = $(element).find('.a-size-base-plus.a-color-base.a-text-normal').text()
-            const offerPrice = $(element).find('.a-price[data-a-color=base] .a-offscreen').text()
-            const originalPrice = $(element).find('.a-price[data-a-color=secondary] .a-offscreen').text()
-            const productLink = $(element).find('.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal').attr('href')
-            const productImageLink = $(element).find('.s-image').attr('src')
-            if(originalPrice === ''){return}
-    
-            offers.push({
-                title: name,
-                offerPrice: offerPrice,
-                originalPrice: originalPrice,
-                productLink: `https://www.amazon.com/${productLink}`,
-                productImageLink: productImageLink
+            const res = await gotScraping(`${url}&page=${i}`)
+            const $ = cheerio.load(res.body)
+            const listOfProducts = $('.s-main-slot.s-result-list.s-search-results.sg-row')
+        
+            listOfProducts.find('.a-section.a-spacing-base').each((i,element)=>{
+                const name = $(element).find('.a-size-base-plus.a-color-base.a-text-normal').text()
+                const offerPrice = $(element).find('.a-price[data-a-color=base] .a-offscreen').text()
+                const originalPrice = $(element).find('.a-price[data-a-color=secondary] .a-offscreen').text()
+                const productLink = $(element).find('.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal').attr('href')
+                const productImageLink = $(element).find('.s-image').attr('src')
+                if(originalPrice === ''){return}
+        
+                offers.push({
+                    title: name,
+                    offerPrice: offerPrice,
+                    originalPrice: originalPrice,
+                    productLink: `https://www.amazon.com/${productLink}`,
+                    productImageLink: productImageLink
+                })
             })
-        })
+            
+            
+        }
         return offers
 
     } catch (error) {
@@ -266,14 +274,16 @@ async function getTechDealsAmazon(url){
 }
 
 async function getAllAmazonDeals(){
-    const tvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true&qid=1652741255&rnid=23566063011')
-    const laptops = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=565108&rh=n%3A565108%2Cp_n_deal_type%3A23566065011&dc&fs=true&qid=1652743734&rnid=23566063011')
-    const graphicsCards = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=17923671011&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A284822%2Cp_n_deal_type%3A23566065011&dc&qid=1652744215&rnid=17923671011')
+    const tvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true')
+    const laptops = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=565108&rh=n%3A565108%2Cp_n_deal_type%3A23566065011&dc&fs=true')
+    const graphicsCards = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=17923671011&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A284822%2Cp_n_deal_type%3A23566065011')
+    const audio = await getTechDealsAmazon('https://www.amazon.com/s?k=headphones&i=electronics&rh=p_n_deal_type%3A23566065011&dc')
 
     const allAmazonDeals = {
         tvs: tvs,
         laptops: laptops,
-        graphicsCards: graphicsCards
+        graphicsCards: graphicsCards,
+        audio: audio
     }
     return allAmazonDeals
 }

@@ -10,7 +10,7 @@ const app = express()
 
 scrapeTodaysData()
 
-app.use('/api/data', require('./routes/routes'))
+app.use('/api/deals', require('./routes/routes'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
