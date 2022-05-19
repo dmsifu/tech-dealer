@@ -1,0 +1,44 @@
+.deals-grid-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+
+    .deals-grid{
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 25px;
+        row-gap: 25px;
+        width: 80%;
+    
+        .deal-card{
+            a{
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                justify-content: space-between;
+                text-decoration: none;
+                
+
+                img{
+                    height: 150px;
+                    width: 250px;
+                }
+                .title{
+                    color: rgb(49, 100, 181);;
+                    font-size: 1.5em;
+                    line-height: 35px;
+                }
+                .offer-price{
+                    color: rgb(211, 96, 96);
+                    font-size: 1.7em;
+                }
+                .original-price{
+                    text-decoration: line-through;
+                    font-size: 1.4em;
+                }
+            }
+        }
+    }
+}
