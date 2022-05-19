@@ -10,9 +10,10 @@ const app = express()
 
 scrapeTodaysData()
 
-app.use('/api/deals', require('./routes/routes'))
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
+
+app.use('/api/deals', require('./routes/routes'))
 
 app.listen(port, ()=>{
     console.log(`server started on ${port}`)
