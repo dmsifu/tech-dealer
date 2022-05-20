@@ -6,12 +6,13 @@
     
 
     h1{
+        font-size: clamp(1.5rem, .2rem + 1vw, 1.3rem);
         color: rgb(49, 100, 181);
     }
 
     button{
-        width: 60px;
-        height: 50px;
+        width: 5em;
+        height: 4em;
         background-color: rgb(49, 100, 181) ;
         color: white;
         border-style: none;

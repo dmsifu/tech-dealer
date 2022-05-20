@@ -8,10 +8,10 @@
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        column-gap: 25px;
-        row-gap: 25px;
-        width: 80%;
-    
+        width: clamp(80vw, 1rem + 5vw, 600px);
+        column-gap: 3px;
+        row-gap: 4px;
+
         .deal-card{
             a{
                 display: flex;
@@ -19,26 +19,60 @@
                 height: 100%;
                 justify-content: space-between;
                 text-decoration: none;
+                border: 1px solid rgb(231, 232, 238);
                 
+                .deal-image{
+                    display: flex;
+                    justify-content: center;
 
-                img{
-                    height: 150px;
-                    width: 250px;
+                    img{
+                        object-fit: scale-down;
+                        height: 200px;
+                        width: 200px;
+                    }
                 }
-                .title{
-                    color: rgb(49, 100, 181);;
-                    font-size: 1.5em;
-                    line-height: 35px;
+                .title-container{
+                    height: 100%;
+                    
+                    .title{
+                        color: rgb(49, 100, 181);;
+                        font-size: 1.2rem;
+                        line-height: 100%;
+                    }
                 }
-                .offer-price{
-                    color: rgb(211, 96, 96);
-                    font-size: 1.7em;
-                }
-                .original-price{
-                    text-decoration: line-through;
-                    font-size: 1.4em;
+                .price-container{
+                    margin-top: 10px;
+                    
+                    .offer-price{
+                        color: rgb(211, 96, 96);
+                        font-size: 1.7em;
+                    }
+                    .original-price{
+                        text-decoration: line-through;
+                        font-size: 1.2em;
+                    }
                 }
             }
+        }
+    }
+    @media (min-width: 2050px) {
+        .deals-grid{
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+    }
+    @media (max-width: 1350px) {
+        .deals-grid{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    @media (max-width: 1000px) {
+        .deals-grid{
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 700px) {
+        .deals-grid{
+            grid-template-columns: 1fr;
         }
     }
 }
