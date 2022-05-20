@@ -5,7 +5,7 @@ const techDeals = require('../models/techDeals')
 //@acess    Private
 const getTodaysOffers = async (req, res) => {
     try{
-        const deals = await techDeals.find()
+        const deals = await techDeals.findById('6285462611f14ac297de8853')
         res.status(200).json(deals)
     }
     catch(err){
