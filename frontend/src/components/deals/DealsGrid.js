@@ -5,40 +5,34 @@ import axios from 'axios'
 
 function DealsGrid() {
     const [data, setData] = useState([])
-    const [deals, setDeals] = useState([])
+    const [tvDeals, setTvDeals] = useState([])
 
     useEffect(() => {      
         axios.get('/api/deals/', {headers: {'Content-Type': 'application/json'}})
             .then(res => res.data)
             .then(data => {
-                setData(createDealCard(data))
+                setData(createDealCards(data))
             })
             .catch(err => console.log(err))
       
     }, [])
 
 
+    function createDealCards(data){
 
-    function createDealCard(data){
-
-        setDeals(
-            Object.keys(data).map((seller)=>{
-                if(seller === '_id' || seller === '__v'){return}
-                else{
-                    return Object.keys(data[seller]).map((category)=>( 
-                        Object.values(data[seller][category]).map((deal)=>(
-                            <DealCard 
-                                key={deal._id} 
-                                title={deal.title} 
-                                offerPrice={deal.offerPrice} 
-                                originalPrice={deal.originalPrice} 
-                                productLink={deal.productLink} 
-                                productImageLink={deal.productImageLink} 
-                            />
-                        ))
-                    ))
-                }
-            })   
+        setTvDeals(
+            data.tvs.map((deal, i)=>{
+                if(i >= 8 ){return}
+                return <DealCard 
+                    key={deal._id} 
+                    title={deal.title} 
+                    offerPrice={deal.offerPrice} 
+                    originalPrice={deal.originalPrice} 
+                    percentOff={deal.percentOff}
+                    productLink={deal.productLink} 
+                    productImageLink={deal.productImageLink} 
+                />
+            })
         )
     }
     
@@ -46,9 +40,9 @@ function DealsGrid() {
 
   return (
     <div className='deals-grid-container'>
-        <h1></h1>
+        <h1>Todays Tv Deals!</h1>
         <div className="deals-grid">
-            {deals}
+            {tvDeals}
         </div>
     </div>
   )

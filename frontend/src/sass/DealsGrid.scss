@@ -41,16 +41,31 @@
                     }
                 }
                 .price-container{
-                    margin-top: 10px;
-                    
                     .offer-price{
+                        grid-area: offer;
                         color: rgb(211, 96, 96);
-                        font-size: 1.7em;
+                        font-size: 1.7rem;
                     }
                     .original-price{
+                        grid-area: original;
                         text-decoration: line-through;
-                        font-size: 1.2em;
+                        font-size: 1.2rem;
                     }
+                    .percent-off{
+                        grid-area: percent;
+                        font-size: 2.3rem;
+                        color: rgb(206, 74, 74);
+                        align-self: center;
+                    }
+
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    margin-top: 10px;
+                    grid-template-areas: 
+                        "offer percent"
+                        "original percent"
+                    ;
+                    
                 }
             }
         }

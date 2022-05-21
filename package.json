@@ -1,7 +1,7 @@
 {
-  "name": "ps5pricetracker",
+  "name": "techdealer",
   "version": "1.0.0",
-  "description": "ps5 price tracking",
+  "description": "tech deal finder",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js --ignore frontend",
