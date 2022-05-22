@@ -18,14 +18,14 @@ async function addDataToDB(){
                 getAudioDeals()
             ])
         
-        const finished = techDeals.create({
+        const finished = {
             tvs: tvs,
             laptops: laptops,
             graphicsCards: graphicsCards,
             audio: audio
-        })
+        }
 
-        await techDeals.findOneAndUpdate({_id: '62884208a91fad74a652b810'},finished)
+        await techDeals.findOneAndReplace({_id: '62884208a91fad74a652b810'}, finished)
         console.log('data added to db')
         
     } catch (error) {
@@ -73,7 +73,7 @@ async function getAudioDeals(){
 async function getTechDealsBestBuy(category){
     try {
         const offers = []
-        for(let i = 1; i < 7; i++){
+        for(let i = 1; i < 10; i++){
             setTimeout(()=>{
                 return 
             }, Math.floor(Math.random() * 3000) + 1000)
@@ -90,7 +90,7 @@ async function getTechDealsBestBuy(category){
                 const productLink = $(element).find('.sku-title a').attr('href')
                 const productImageLink = $(element).find('.product-image').attr('src')
                 if(offerPrice === '' || originalPrice === undefined || productImageLink === undefined){return}
-                const percentOff = 100 - Math.floor(parseFloat(offerPrice.split('').slice(1).join('')) / parseFloat(originalPrice.split('').slice(1).join('')) * 100)
+                const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
     
                 offers.push({
                     title: name,
@@ -129,9 +129,10 @@ async function getTechDealsNewegg(url){
             const originalPrice = $(element).find('.price-was-data').text()
             const productLink = $(element).find('.item-title').attr('href')
             const productImageLink = $(element).find('img').attr('src')
-            if(originalPrice === ''){return}
+            if(originalPrice === '' || offerPriceOne === '' || offerPriceTwo === ''){return}
             const offerPrice = `$${offerPriceOne}${offerPriceTwo}`
-            const percentOff = 100 - Math.floor(parseFloat(offerPrice.split('').slice(1).join('')) / parseFloat(originalPrice.split('').slice(1).join('')) * 100)
+            const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
+
     
             offers.push({
                 title: name,
@@ -143,7 +144,6 @@ async function getTechDealsNewegg(url){
                 soldOn: 'Newegg'
             })
         })
-        
         return offers
         
     } catch (error) {
@@ -154,7 +154,7 @@ async function getTechDealsNewegg(url){
 async function getTechDealsWalmart(url){
     try {
         const offers = []
-        for (let i = 1; i < 7; i++) {
+        for (let i = 1; i < 10; i++) {
             setTimeout(()=>{
                 return 
             }, Math.floor(Math.random() * 3000) + 1000)
@@ -171,7 +171,7 @@ async function getTechDealsWalmart(url){
                 const productLink = $(element).find('.sans-serif.mid-gray.relative.flex.flex-column.w-100 a').attr('href')
                 const productImageLink = $(element).find('img').attr('src')
                 if(originalPrice === ''){return}
-                const percentOff = 100 - Math.floor(parseFloat(offerPrice.split('').slice(1).join('')) / parseFloat(originalPrice.split('').slice(1).join('')) * 100)
+                const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
         
                 offers.push({
                     title: name,
@@ -195,7 +195,7 @@ async function getTechDealsWalmart(url){
 async function getTechDealsAmazon(url){
     try {
         const offers = []
-        for (let i = 1; i < 7; i++) {
+        for (let i = 1; i < 10; i++) {
             setTimeout(()=>{
                 return 
             }, Math.floor(Math.random() * 3000) + 1000)
@@ -211,7 +211,7 @@ async function getTechDealsAmazon(url){
                 const productLink = $(element).find('.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal').attr('href')
                 const productImageLink = $(element).find('.s-image').attr('src')
                 if(originalPrice === ''){return}
-                const percentOff = 100 - Math.floor(parseFloat(offerPrice.split('').slice(1).join('')) / parseFloat(originalPrice.split('').slice(1).join('')) * 100)
+                const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
         
                 offers.push({
                     title: name,

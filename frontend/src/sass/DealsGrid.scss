@@ -4,6 +4,10 @@
     align-items: center;
     margin-top: 40px;
 
+    h1{
+        color: rgb(49, 100, 181);
+    }
+
     .deals-grid{
 
         display: grid;
@@ -35,7 +39,7 @@
                     height: 100%;
                     
                     .title{
-                        color: rgb(49, 100, 181);;
+                        color: rgb(49, 100, 181);
                         font-size: 1.2rem;
                         line-height: 100%;
                     }
