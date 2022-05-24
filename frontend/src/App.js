@@ -1,38 +1,30 @@
-import DealsGrid from "./components/deals/DealsGrid";
-import DealCard from './components/deals/DealCard'
-import TopContainer from "./components/modal/TopContainer";
 import { Routes, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import TopContainer from "./components/modal/TopContainer";
+import DealCard from './components/deals/DealCard'
 import Home from "./pages/Home";
 import Tvs from "./pages/Tvs";
+import Laptops from './pages/Laptops';
 import GraphicsCards from "./pages/GraphicsCards";
 import Audio from "./pages/Audio";
 import axios from "axios";
 
 function App() {
-  const [tvDeals, setTvDeals] = useState([])
-  const [laptopDeals, setLaptopDeals] = useState([])
-  const [graphicsCardDeals, setGraphicsCardDeals] = useState([])
-  const [audioDeals, setAudio] = useState([])
+  const [data, setData] = useState([])
 
   useEffect(() => {     
     axios.get('/api/deals/', {headers: {'Content-Type': 'application/json'}})
         .then(res => res.data)
         .then(data => {
-          setInitialData(data)
+          setData(data)
         })
         .catch(err => console.log(err))
   
   }, [])
 
-  function setInitialData(data){
-    const bestTvDeals = data.tvs.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
-    const bestGraphicsCardDeals = data.graphicsCards.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
-    const bestlaptopDeals = data.laptops.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
-    const bestAudioDeals = data.audio.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
-  
-    setTvDeals(
-        bestTvDeals.map((deal)=>(
+  function filterData(deals, filterFunction){
+    const filteredDeals = filterFunction(deals)
+    return filteredDeals.map((deal)=> 
             <DealCard 
               key={deal._id} 
               title={deal.title} 
@@ -42,57 +34,22 @@ function App() {
               productLink={deal.productLink} 
               productImageLink={deal.productImageLink} 
             />
-        ))
-    )
-    setLaptopDeals(
-        bestlaptopDeals.map((deal)=>(
-            <DealCard 
-              key={deal._id} 
-              title={deal.title} 
-              offerPrice={deal.offerPrice} 
-              originalPrice={deal.originalPrice} 
-              percentOff={deal.percentOff}
-              productLink={deal.productLink} 
-              productImageLink={deal.productImageLink} 
-            />
-        ))
-    )
-    setGraphicsCardDeals(
-        bestGraphicsCardDeals.map((deal)=>(
-            <DealCard 
-              key={deal._id} 
-              title={deal.title} 
-              offerPrice={deal.offerPrice} 
-              originalPrice={deal.originalPrice} 
-              percentOff={deal.percentOff}
-              productLink={deal.productLink} 
-              productImageLink={deal.productImageLink} 
-            />
-        ))
-    )
-    setAudio(
-        bestAudioDeals.map((deal)=>(
-            <DealCard 
-                key={deal._id} 
-                title={deal.title} 
-                offerPrice={deal.offerPrice} 
-                originalPrice={deal.originalPrice} 
-                percentOff={deal.percentOff}
-                productLink={deal.productLink} 
-                productImageLink={deal.productImageLink} 
-            />
-        ))
-      )
-   }
-  
+          )
+  }
+
+  function sortByBestPercentOff(deal){
+    return deal.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
+  }
+
   return (
     <div className="app">
       <TopContainer/>
       <Routes>
-        <Route path="/" element={<Home tvDeals={tvDeals} laptopDeals={laptopDeals} graphicsCardDeals={graphicsCardDeals} audioDeals={audioDeals} />} />
-        <Route path="/tvs" element={<Tvs />} />
-        <Route path="/graphicscards" element={<GraphicsCards />} />
-        <Route path="/audio" element={<Audio />} />
+        <Route path="/" element={<Home data={data} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/tvs" element={<Tvs data={data.tvs} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/laptops" element={<Laptops data={data.laptops} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/graphicscards" element={<GraphicsCards data={data.graphicsCards} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/audio" element={<Audio data={data.audio} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
       </Routes>
     </div>
   );

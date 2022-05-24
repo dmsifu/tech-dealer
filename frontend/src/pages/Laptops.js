@@ -1,7 +1,10 @@
+import DealsGrid from "../components/deals/DealsGrid"
 
-function Laptops() {
+function Laptops({data, filterData, sortByBestPercentOff}) {
   return (
-    <div>Laptops</div>
+    <div>
+      <DealsGrid data={data} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />
+    </div>
   )
 }
 

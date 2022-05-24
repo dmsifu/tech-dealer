@@ -86,6 +86,7 @@ async function getTechDealsBestBuy(category){
     
             listOfProducts.find('.list-item.lv').each((i, element) => {
                 const name = $(element).find('.sku-title a').text()
+                if(name.includes('Glasses')){return}
                 const offerPrice = $(element).find('.priceView-hero-price.priceView-customer-price span[aria-hidden=true]').text()
                 const originalPrice = $(element).find('.pricing-price__regular-price-content div[aria-hidden=true]').text().split(' ')[1]
                 const productLink = $(element).find('.sku-title a').attr('href')

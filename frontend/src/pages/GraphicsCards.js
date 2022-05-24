@@ -1,7 +1,10 @@
+import DealsGrid from "../components/deals/DealsGrid"
 
-function GraphicsCards() {
+function GraphicsCards({data, filterData, sortByBestPercentOff}) {
   return (
-    <div>GraphicsCards</div>
+    <div>
+      <DealsGrid data={data} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />
+    </div>
   )
 }
 

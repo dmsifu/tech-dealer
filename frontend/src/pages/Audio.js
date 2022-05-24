@@ -1,7 +1,10 @@
+import DealsGrid from "../components/deals/DealsGrid"
 
-function Audio() {
+function Audio({data, filterData, sortByBestPercentOff}) {
   return (
-    <div>Audio</div>
+    <div>
+      <DealsGrid data={data} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />
+    </div>
   )
 }
 

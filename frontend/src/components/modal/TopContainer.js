@@ -4,7 +4,7 @@ import '../../sass/TopContainer.scss'
 function TopContainer() {
   return (
     <div className="top-container">
-        <h1>Tech Dealer</h1>
+        <a href="/">Tech Dealer</a>
         <Modal/>
     </div>
   )
