@@ -1,20 +1,41 @@
+$red-price-color: rgb(212, 64, 64);
+$blue-text-color: rgb(49, 100, 181);
+
 .deals-grid-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
+    width: fit-content;
 
-    h1{
-        color: rgb(49, 100, 181);
+    .deal-category{
+        display: flex;
+        align-items: flex-end;
+        justify-content:space-between;
+        width: 100%;
+        height: 70px;
+        margin-bottom: 20px;
+        
+        h1{
+            color: $blue-text-color;
+            font-size: 2rem;
+        }
+        a{
+            text-decoration: none;
+            color: $blue-text-color;
+            font-size: 1.2rem;
+
+            &:hover{
+                text-decoration: underline;
+            }
+        }
     }
-
+    
     .deals-grid{
-
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         width: clamp(80vw, 1rem + 5vw, 600px);
-        column-gap: 3px;
-        row-gap: 4px;
+        column-gap: 10px;
+        row-gap: 10px;
 
         .deal-card{
             a{
@@ -37,29 +58,41 @@
                 }
                 .title-container{
                     height: 100%;
+                    margin-top: 20px;
                     
                     .title{
-                        color: rgb(49, 100, 181);
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        color: $blue-text-color;
                         font-size: 1.2rem;
-                        line-height: 100%;
+                        overflow: hidden;
+
+                        &:hover{
+                            text-decoration: underline;
+                        }
                     }
                 }
                 .price-container{
                     .offer-price{
                         grid-area: offer;
-                        color: rgb(211, 96, 96);
+                        color: $red-price-color;
                         font-size: 1.7rem;
                     }
                     .original-price{
                         grid-area: original;
+                        color: $blue-text-color;
                         text-decoration: line-through;
                         font-size: 1.2rem;
                     }
                     .percent-off{
                         grid-area: percent;
                         font-size: 2.3rem;
-                        color: rgb(206, 74, 74);
+                        background-color: $red-price-color;
+                        color: rgb(255, 255, 255);
                         align-self: center;
+                        width: 90%;
+                        text-align: center;
                     }
 
                     display: grid;
