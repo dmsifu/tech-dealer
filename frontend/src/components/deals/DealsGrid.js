@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import '../../sass/DealsGrid.scss'
 
 function DealsGrid({ data, filterData, sortByBestPercentOff }) {

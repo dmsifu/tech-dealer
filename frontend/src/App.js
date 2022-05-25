@@ -3,11 +3,8 @@ import { useEffect, useState } from 'react'
 import TopContainer from "./components/modal/TopContainer";
 import DealCard from './components/deals/DealCard'
 import Home from "./pages/Home";
-import Tvs from "./pages/Tvs";
-import Laptops from './pages/Laptops';
-import GraphicsCards from "./pages/GraphicsCards";
-import Audio from "./pages/Audio";
 import axios from "axios";
+import Deals from './pages/Deals';
 
 function App() {
   const [data, setData] = useState([])
@@ -46,10 +43,10 @@ function App() {
       <TopContainer/>
       <Routes>
         <Route path="/" element={<Home data={data} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
-        <Route path="/tvs" element={<Tvs data={data.tvs} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
-        <Route path="/laptops" element={<Laptops data={data.laptops} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
-        <Route path="/graphicscards" element={<GraphicsCards data={data.graphicsCards} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
-        <Route path="/audio" element={<Audio data={data.audio} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/tvs/*" element={<Deals data={data.tvs} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/laptops/*" element={<Deals data={data.laptops} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/graphicscards/*" element={<Deals data={data.graphicsCards} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
+        <Route path="/audio/*" element={<Deals data={data.audio} filterData={filterData} sortByBestPercentOff={sortByBestPercentOff} />} />
       </Routes>
     </div>
   );
