@@ -9,10 +9,10 @@ function App() {
       <TopContainer/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/tvs/*" element={<Deals category="tvs" />} />
-        <Route path="/laptops/*" element={<Deals category="laptops" />} />
-        <Route path="/graphicscards/*" element={<Deals category="graphicsCards" />} />
-        <Route path="/audio/*" element={<Deals category="audio" />} />
+        <Route path="/tvs" element={<Deals category="tvs" />} />
+        <Route path="/laptops" element={<Deals category="laptops" />} />
+        <Route path="/graphicscards" element={<Deals category="graphicsCards" />} />
+        <Route path="/audio" element={<Deals category="audio" />} />
       </Routes>
     </div>
   );

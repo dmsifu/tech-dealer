@@ -44,7 +44,6 @@ async function getTvDeals(){
     return allTvs.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
     
 }
-
 async function getLaptopDeals(){
     const bestbuyLaptops = await getTechDealsBestBuy('pcmcat138500050001')
     const neweggLaptops = await getTechDealsNewegg('https://www.newegg.com/p/pl?Submit=StoreIM&Category=223&Depa=3&PageSize=96&N=4803')
@@ -64,10 +63,11 @@ async function getGraphicsCardDeals(){
 }
 async function getAudioDeals(){
     const bestbuyAudio = await getTechDealsBestBuy('pcmcat144700050004')
+    const amazonAudio = await getTechDealsAmazon('https://www.amazon.com/s?k=Over-Ear+Headphones&i=electronics&rh=n%3A12097479011%2Cp_n_deal_type%3A23566065011&s=review-rank')
     const walmartAudio = await getTechDealsWalmart('https://www.walmart.com/shop/deals/electronics/headphones-speakers-and-video?facet=special_offers%3AReduced+Price%7C%7Cspecial_offers%3ARollback')
-    const amazonAudio = await getTechDealsAmazon('https://www.amazon.com/s?k=headphones&i=electronics&rh=p_n_deal_type%3A23566065011&dc')
+    const amazonAudio2 = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172541&rh=n%3A172541%2Cp_n_feature_four_browse-bin%3A12097501011%2Cp_n_deal_type%3A23566065011&lo=image')
 
-    const allAudio = [...bestbuyAudio, ...walmartAudio, ...amazonAudio]
+    const allAudio = [...bestbuyAudio, ...walmartAudio, ...amazonAudio, ...amazonAudio2]
     return allAudio.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
 }
 

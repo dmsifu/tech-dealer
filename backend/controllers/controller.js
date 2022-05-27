@@ -48,7 +48,7 @@ const getFilteredDeals = async (req, res) => {
             .find({_id: '62884208a91fad74a652b810'})
             .slice(category ,[parseInt(start),parseInt(limit)])
         
-        res.status(200).json(deals[0][category])
+        res.status(200).json(deals[0][`${category}`])
     }
     catch(err){
         res.status(400).json({err}) 

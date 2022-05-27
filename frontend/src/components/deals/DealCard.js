@@ -1,5 +1,5 @@
 
-function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, productImageLink }) {
+function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, productImageLink, soldOn }) {
   return (
     <div className="deal-card">
       <a href={productLink}>
@@ -9,6 +9,7 @@ function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, p
         <div className="title-container">
           <h2 className="title">{title}</h2>
         </div>
+        <section>{`Sold on ${soldOn}`}</section>
         <div className="price-container">
           <h2 className="offer-price">{offerPrice}</h2>
           <h2 className="original-price">{originalPrice}</h2>

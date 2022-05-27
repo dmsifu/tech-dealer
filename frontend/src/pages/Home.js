@@ -33,7 +33,8 @@ function Home() {
         originalPrice={deal.originalPrice} 
         percentOff={deal.percentOff}
         productLink={deal.productLink} 
-        productImageLink={deal.productImageLink} 
+        productImageLink={deal.productImageLink}
+        soldOn={deal.soldOn}
       />
     ))
   }
@@ -42,28 +43,28 @@ function Home() {
     <div className='deals-grid-container'>
         <div className='deal-category'>
             <h1>TODAYS BEST TV DEALS</h1>
-            <a href="/tvs/page=1">show all tv deals</a>
+            <a href="/tvs">show all tv deals</a>
         </div>
         <div className="deals-grid">
             {bestTvDeals.length === 0 ? <h1>Loading Deals..</h1> : bestTvDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST LAPTOP DEALS</h1>
-            <a href="/laptops/page=1">show all laptop deals</a>
+            <a href="/laptops">show all laptop deals</a>
         </div>
         <div className="deals-grid">
           {bestLaptopDeals.length === 0 ? <h1>Loading Deals..</h1> :bestLaptopDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST GRAPHICS CARD DEALS</h1>
-            <a href="/graphicscards/page=1">show all graphics card deals</a>
+            <a href="/graphicscards">show all graphics card deals</a>
         </div>
         <div className="deals-grid">
           {bestGraphicsCardDeals.length === 0 ? <h1>Loading Deals..</h1> : bestGraphicsCardDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST AUDIO DEALS</h1>
-            <a href="/audio/page=1">show all audio deals</a>
+            <a href="/audio">show all audio deals</a>
         </div>
         <div className="deals-grid">
           {bestAudioDeals.length === 0 ? <h1>Loading Deals..</h1> : bestAudioDeals}

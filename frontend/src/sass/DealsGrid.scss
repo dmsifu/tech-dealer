@@ -5,7 +5,6 @@ $blue-text-color: rgb(49, 100, 181);
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: fit-content;
     margin-top: 10px;
 
     .deal-category{
@@ -35,7 +34,7 @@ $blue-text-color: rgb(49, 100, 181);
     .deals-grid{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        width: clamp(80vw, 1rem + 5vw, 600px);
+        width: 90vw;
         column-gap: 15px;
         row-gap: 15px;
 
@@ -61,7 +60,9 @@ $blue-text-color: rgb(49, 100, 181);
                 }
                 .title-container{
                     height: 100%;
+                    width: 90%;
                     margin-top: 20px;
+                    margin-left: 10px;
                     
                     .title{
                         display: -webkit-box;
@@ -70,12 +71,16 @@ $blue-text-color: rgb(49, 100, 181);
                         color: $blue-text-color;
                         font-size: 1.2rem;
                         overflow: hidden;
-                        text-align: center;
 
                         &:hover{
                             text-decoration: underline;
                         }
                     }
+                }
+                section{
+                    color: $blue-text-color;
+                    margin-top: 15px;
+                    margin-left: 10px;
                 }
                 .price-container{
                     margin-bottom: 5px;

@@ -1,5 +1,6 @@
 import '../../sass/DealsGrid.scss'
 import DealCard from './DealCard'
+import { useState } from 'react'
 
 function DealsGrid({ data }) {
 
@@ -14,7 +15,8 @@ function DealsGrid({ data }) {
                 originalPrice={deal.originalPrice} 
                 percentOff={deal.percentOff}
                 productLink={deal.productLink} 
-                productImageLink={deal.productImageLink} 
+                productImageLink={deal.productImageLink}
+                soldOn={deal.soldOn}
               />
           )}
         </div>
