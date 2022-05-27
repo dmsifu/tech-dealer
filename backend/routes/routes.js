@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const getTodaysOffers = require('../controllers/controller')
+const {getAllDeals, getBestDeals, getFilteredDeals} = require('../controllers/controller')
 
-router.get('/', getTodaysOffers)
+router.get('/allDeals', getAllDeals)
+router.get('/bestDeals', getBestDeals)
+router.get('/', getFilteredDeals)
 
 module.exports = router

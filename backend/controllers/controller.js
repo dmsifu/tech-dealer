@@ -1,9 +1,9 @@
 const techDeals = require('../models/techDeals')
 
-//@desc     get todays prices
-//@route    GET /api/todaysPrices
+//@desc     get all of todays deals
+//@route    GET /api/allDeals
 //@acess    Private
-const getTodaysOffers = async (req, res) => {
+const getAllDeals = async (req, res) => {
     try{
         const deals = await techDeals.findById('62884208a91fad74a652b810')
         res.status(200).json(deals)
@@ -13,4 +13,50 @@ const getTodaysOffers = async (req, res) => {
     }
 }
 
-module.exports = getTodaysOffers
+//@desc     get todays best deals
+//@route    GET /api/bestDeals
+//@acess    Private
+const getBestDeals = async (req, res) => {
+    try{
+        const bestDeals = await techDeals
+            .find({_id: '62884208a91fad74a652b810'})
+            .slice('tvs',8)
+            .slice('laptops',8)
+            .slice('graphicsCards',8)
+            .slice('audio',8)
+        
+        res.status(200).json(bestDeals[0])
+    }
+    catch(err){
+        res.status(400).json({err}) 
+    }
+}
+
+//@desc     get filtered deals
+//@route    GET /api/deals
+//@acess    Private
+const getFilteredDeals = async (req, res) => {
+    try{
+        const category = req.query.category
+        const page = req.query.page
+        const limit = req.query.limit 
+        
+        const start = (page - 1) * limit
+        const end = page * limit
+
+        const deals = await techDeals
+            .find({_id: '62884208a91fad74a652b810'})
+            .slice(category ,[parseInt(start),parseInt(limit)])
+        
+        res.status(200).json(deals[0][category])
+    }
+    catch(err){
+        res.status(400).json({err}) 
+    }
+}
+
+module.exports = {
+    getAllDeals,
+    getBestDeals,
+    getFilteredDeals
+}

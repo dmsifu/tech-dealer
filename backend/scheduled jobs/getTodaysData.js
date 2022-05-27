@@ -41,7 +41,7 @@ async function getTvDeals(){
     const amazonTvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true')
 
     const allTvs = [...bestbuyTvs, ...neweggTvs, ...walmartTvs, ...amazonTvs]
-    return allTvs
+    return allTvs.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
     
 }
 
@@ -52,7 +52,7 @@ async function getLaptopDeals(){
     const amazonLaptops = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=565108&rh=n%3A565108%2Cp_n_deal_type%3A23566065011&dc&fs=true')
     
     const allLaptops = [...bestbuyLaptops, ...neweggLaptops, ...walmartLaptops, ...amazonLaptops]
-    return allLaptops
+    return allLaptops.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
 }
 async function getGraphicsCardDeals(){
     const bestbuyGraphicsCards = await getTechDealsBestBuy('abcat0507002')
@@ -60,7 +60,7 @@ async function getGraphicsCardDeals(){
     const amazonGraphicsCards = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=17923671011&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A284822%2Cp_n_deal_type%3A23566065011')
 
     const allGraphicsCards = [...bestbuyGraphicsCards, ...neweggGraphicsCards, ...amazonGraphicsCards]
-    return allGraphicsCards
+    return allGraphicsCards.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
 }
 async function getAudioDeals(){
     const bestbuyAudio = await getTechDealsBestBuy('pcmcat144700050004')
@@ -68,7 +68,7 @@ async function getAudioDeals(){
     const amazonAudio = await getTechDealsAmazon('https://www.amazon.com/s?k=headphones&i=electronics&rh=p_n_deal_type%3A23566065011&dc')
 
     const allAudio = [...bestbuyAudio, ...walmartAudio, ...amazonAudio]
-    return allAudio
+    return allAudio.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
 }
 
 async function getTechDealsBestBuy(category){
@@ -231,7 +231,7 @@ async function getTechDealsAmazon(url){
     } catch (error) {
         return {message: error}
     }
-
 }
+
 
 module.exports = scrapeTodaysData
