@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { useState, React } from 'react';
-import TopContainer from "./components/modal/TopContainer";
+import TopContainer from "./components/TopContainer";
 import Home from "./pages/Home";
 import Deals from './pages/Deals';
 

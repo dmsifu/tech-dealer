@@ -1,4 +1,4 @@
-import '../../sass/Pagination.scss'
+import '../sass/Pagination.scss'
 
 function Paginated({ totalPages, currentPage, handlePageChange }) {
   return (

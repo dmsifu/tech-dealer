@@ -1,4 +1,4 @@
-import '../../sass/DealsGrid.scss'
+import '../sass/DealsGrid.scss'
 import DealCard from './DealCard'
 
 function DealsGrid({ data }) {

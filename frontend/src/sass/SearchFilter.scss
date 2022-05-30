@@ -1,0 +1,30 @@
+.search-filter-container{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    height: 50px;
+    font-size: 1.2rem;
+    
+    input{
+        font-size: 1.2rem;
+        color: rgb(49, 100, 181);
+    }
+
+    label{
+        font-size: 1.2rem;
+        color: rgb(49, 100, 181);
+    }
+    select{
+        font-size: 1.2rem;
+        color: rgb(49, 100, 181);
+    }
+}
+
+@media (max-width: 700px) {
+    .search-filter-container{
+        align-items: flex-start;
+        row-gap: 5px;
+        flex-direction: column;
+        margin-bottom: 60px;
+    }
+}

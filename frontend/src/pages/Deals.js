@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import DealsGrid from "../components/deals/DealsGrid"
-import Paginated from '../components/deals/Paginated';
+import DealsGrid from "../components/DealsGrid"
+import Paginated from '../components/Paginated';
+import SearchFilter from '../components/SearchFilter';
+import '../sass/Deals.scss'
+
 
 function Deals({ category }) {
 
@@ -38,10 +41,11 @@ function Deals({ category }) {
   }
   
   return (
-    <div>
+    <main className='deals-container'>
+      <SearchFilter />
       <DealsGrid data={categoryDeals.deals}/>
       <Paginated totalPages={totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />
-    </div>
+    </main>
   )
 }
 

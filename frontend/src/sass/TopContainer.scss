@@ -11,16 +11,4 @@
         text-decoration: none;
         font-weight: bold;
     }
-
-    button{
-        width: 5em;
-        height: 4em;
-        background-color: rgb(49, 100, 181) ;
-        color: white;
-        border-style: none;
-        cursor: pointer;
-        &:hover{
-            background-color: rgb(92, 123, 174);
-        }
-    }
 }

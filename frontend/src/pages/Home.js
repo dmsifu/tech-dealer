@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from "axios";
-import DealCard from '../components/deals/DealCard'
+import DealCard from '../components/DealCard'
 import '../sass/DealsGrid.scss'
 
 function Home() {

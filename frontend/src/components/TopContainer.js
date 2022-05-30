@@ -1,5 +1,4 @@
-import Modal from "./Modal"
-import '../../sass/TopContainer.scss'
+import '../sass/TopContainer.scss'
 
 function TopContainer() {
   return (
