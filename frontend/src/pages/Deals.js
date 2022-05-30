@@ -9,22 +9,24 @@ function Deals({ category }) {
   let nav = useNavigate()
   let [searchParams, setSearchParams] = useSearchParams()
   const [categoryDeals, setCategoryDeals] = useState([])  
+  const [totalPages, setTotalPages] = useState()
 
   useEffect(() => {     
     axios.get(`/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16`, {headers: {'Content-Type': 'application/json'}})
         .then(res => res.data)
         .then(data => {
           setCategoryDeals(data)
+          setTotalPages(data.totalPages)
         })
         .catch(err => console.log(err))
   }, [searchParams])
 
   function handlePageChange(page){
-    if(page.target.textContent === 'prev' && searchParams.get('page') !== '1'){
+    if(page.target.textContent === 'prev' && searchParams.get('page') !== 1){
       setSearchParams({page: parseInt(searchParams.get('page')) - 1})
       window.location.reload(false);
     }
-    else if(page.target.textContent === 'next'){
+    else if(page.target.textContent === 'next' && searchParams.get('page') !== totalPages){
       setSearchParams({page: parseInt(searchParams.get('page')) + 1})
       window.location.reload(false);
     }
@@ -38,7 +40,7 @@ function Deals({ category }) {
   return (
     <div>
       <DealsGrid data={categoryDeals.deals}/>
-      <Paginated totalPage={categoryDeals.totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />
+      <Paginated totalPages={totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />
     </div>
   )
 }
