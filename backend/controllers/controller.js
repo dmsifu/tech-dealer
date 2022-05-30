@@ -19,12 +19,12 @@ const getAllDeals = async (req, res) => {
 const getBestDeals = async (req, res) => {
     try{
         const bestDeals = await techDeals
-            .find({_id: '62884208a91fad74a652b810'})
-            .slice('tvs',8)
-            .slice('laptops',8)
-            .slice('graphicsCards',8)
-            .slice('audio',8)
-        
+        .find({_id: '62884208a91fad74a652b810'})
+        .slice('tvs',8)
+        .slice('laptops',8)
+        .slice('graphicsCards',8)
+        .slice('audio',8)
+    
         res.status(200).json(bestDeals[0])
     }
     catch(err){
@@ -45,10 +45,14 @@ const getFilteredDeals = async (req, res) => {
         const end = page * limit
 
         const deals = await techDeals
-            .find({_id: '62884208a91fad74a652b810'})
-            .slice(category ,[parseInt(start),parseInt(limit)])
+            .find({_id: '62884208a91fad74a652b810'},`${category}`)
+
+        const totalPages = Math.ceil(deals[0][`${category}`].length / limit)
         
-        res.status(200).json(deals[0][`${category}`])
+        res.status(200).json({
+            totalPages: totalPages,
+            deals: deals[0][`${category}`].slice(parseInt(start),parseInt(end))
+        })
     }
     catch(err){
         res.status(400).json({err}) 

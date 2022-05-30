@@ -1,13 +1,12 @@
 import '../../sass/DealsGrid.scss'
 import DealCard from './DealCard'
-import { useState } from 'react'
 
 function DealsGrid({ data }) {
 
   return (
     <div className='deals-grid-container'>
         <div className="deals-grid">
-            {data.length === 0 ? <h1>Loading Deals..</h1> : data.map((deal)=> 
+            {data === undefined ? <h1>Loading Deals..</h1> : data.map((deal)=> 
               <DealCard 
                 key={deal._id} 
                 title={deal.title} 
