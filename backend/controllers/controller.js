@@ -40,13 +40,13 @@ const getFilteredDeals = async (req, res) => {
         const category = req.query.category
         const page = req.query.page
         const limit = req.query.limit 
+        const search = req.query.search
         
         const start = (page - 1) * limit
         const end = page * limit
 
-        const deals = await techDeals
-            .find({_id: '62884208a91fad74a652b810'},`${category}`)
-
+        const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
+            
         const totalPages = Math.ceil(deals[0][`${category}`].length / limit)
         
         res.status(200).json({

@@ -3,20 +3,32 @@
     align-items: center;
     column-gap: 20px;
     height: 50px;
-    font-size: 1.2rem;
-    
+    font-size: 1.3rem;
+    color: rgb(49, 100, 181);
+
     input{
-        font-size: 1.2rem;
+        border-radius: 5px;
         color: rgb(49, 100, 181);
+        font-size: 1.2rem;
     }
 
-    label{
+    select{
+        border-radius: 5px;
         font-size: 1.2rem;
         color: rgb(49, 100, 181);
     }
-    select{
-        font-size: 1.2rem;
+    button{
+        height: 1.4em;
+        width: 3em;
         color: rgb(49, 100, 181);
+        background-color: rgb(197, 202, 222);
+        font-size: 1.2rem;
+        border-style: none;
+        cursor: pointer;
+        &:hover{
+            color: rgb(197, 202, 222);
+            background-color: rgb(49, 100, 181); 
+        }
     }
 }
 

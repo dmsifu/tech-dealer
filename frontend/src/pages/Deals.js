@@ -1,27 +1,29 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import DealsGrid from "../components/DealsGrid"
 import Paginated from '../components/Paginated';
 import SearchFilter from '../components/SearchFilter';
 import '../sass/Deals.scss'
 
-
 function Deals({ category }) {
 
-  let nav = useNavigate()
   let [searchParams, setSearchParams] = useSearchParams()
   const [categoryDeals, setCategoryDeals] = useState([])  
   const [totalPages, setTotalPages] = useState()
 
-  useEffect(() => {     
+  function fetchDeals(){
     axios.get(`/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16`, {headers: {'Content-Type': 'application/json'}})
-        .then(res => res.data)
-        .then(data => {
-          setCategoryDeals(data)
-          setTotalPages(data.totalPages)
-        })
-        .catch(err => console.log(err))
+      .then(res => res.data)
+      .then(data => {
+        setCategoryDeals(data)
+        setTotalPages(data.totalPages)
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {     
+    fetchDeals()
   }, [searchParams])
 
   function handlePageChange(page){
@@ -42,7 +44,7 @@ function Deals({ category }) {
   
   return (
     <main className='deals-container'>
-      <SearchFilter />
+      <SearchFilter setSearchParams={setSearchParams}/>
       <DealsGrid data={categoryDeals.deals}/>
       <Paginated totalPages={totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />
     </main>
