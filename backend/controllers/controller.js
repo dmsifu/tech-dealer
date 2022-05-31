@@ -46,13 +46,26 @@ const getFilteredDeals = async (req, res) => {
         const end = page * limit
 
         const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
-            
-        const totalPages = Math.ceil(deals[0][`${category}`].length / limit)
-        
-        res.status(200).json({
-            totalPages: totalPages,
-            deals: deals[0][`${category}`].slice(parseInt(start),parseInt(end))
-        })
+
+        if(search !== undefined){
+
+            const filteredDeals = deals[0][`${category}`].filter((deal)=> 
+                deal.title.toLowerCase().includes(`${search.toLowerCase()}`) || deal.soldOn.toLowerCase().includes(`${search.toLowerCase()}`)
+                )
+            const totalPages = Math.ceil(filteredDeals.length / limit)
+
+            res.status(200).json({
+                totalPages: totalPages,
+                deals: filteredDeals
+            })
+        }
+        else{
+            const totalPages = Math.ceil(deals[0][`${category}`].length / limit)
+            res.status(200).json({
+                totalPages: totalPages,
+                deals: deals[0][`${category}`].slice(parseInt(start),parseInt(end))
+            })
+        }
     }
     catch(err){
         res.status(400).json({err}) 
