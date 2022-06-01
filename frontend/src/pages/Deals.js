@@ -11,40 +11,52 @@ function Deals({ category }) {
   let [searchParams, setSearchParams] = useSearchParams()
   const [categoryDeals, setCategoryDeals] = useState([])  
   const [totalPages, setTotalPages] = useState()
+  const [currentSearch, setCurrentSearch] = useState(undefined)
 
-  function fetchDeals(){
-    axios.get(`/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16`, {headers: {'Content-Type': 'application/json'}})
+  useEffect(() => {     
+    axios.get(`/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16&search=${searchParams.get('search')}`)
       .then(res => res.data)
       .then(data => {
         setCategoryDeals(data)
         setTotalPages(data.totalPages)
       })
       .catch(err => console.log(err))
-  }
-
-  useEffect(() => {     
-    fetchDeals()
-  }, [searchParams])
+  }, [searchParams, currentSearch])
 
   function handlePageChange(page){
     if(page.target.textContent === 'prev' && searchParams.get('page') !== 1){
-      setSearchParams({page: parseInt(searchParams.get('page')) - 1})
-      window.location.reload(false);
+      if(searchParams.get('search') === null){
+        setSearchParams({page: parseInt(searchParams.get('page')) - 1})
+      }
+      else{
+        setSearchParams({page: parseInt(searchParams.get('page')) - 1, search: searchParams.get('search')})
+      }
+      window.location.reload(false)
     }
     else if(page.target.textContent === 'next' && searchParams.get('page') !== totalPages){
-      setSearchParams({page: parseInt(searchParams.get('page')) + 1})
-      window.location.reload(false);
+      if(searchParams.get('search') === null){
+        setSearchParams({page: parseInt(searchParams.get('page')) + 1})
+      }
+      else{
+        setSearchParams({page: parseInt(searchParams.get('page')) + 1, search: searchParams.get('search')})
+      }
+      window.location.reload(false)
     }
     else{
-      setSearchParams({page: page.target.textContent})
-      window.location.reload(false);
+      if(searchParams.get('search') === null){
+        setSearchParams({page: page.target.textContent})
+      }
+      else{
+        setSearchParams({page: page.target.textContent, search: searchParams.get('search')})
+      }
+      window.location.reload(false)
     }
 
   }
   
   return (
     <main className='deals-container'>
-      <SearchFilter setSearchParams={setSearchParams}/>
+      <SearchFilter setSearchParams={setSearchParams} setCurrentSearch={setCurrentSearch}/>
       <DealsGrid data={categoryDeals.deals}/>
       <Paginated totalPages={totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />
     </main>

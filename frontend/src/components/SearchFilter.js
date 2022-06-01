@@ -1,10 +1,11 @@
 import '../sass/SearchFilter.scss' 
 
-function SearchFilter({ setSearchParams }) {
+function SearchFilter({ setSearchParams, setCurrentSearch}) {
 
     function handleSearch(e){
         e.preventDefault()
-        setSearchParams({search: e.target.search.value})
+        setSearchParams({page: 1, search: e.target.search.value})
+        window.location.reload(false)
     }
 
   return (

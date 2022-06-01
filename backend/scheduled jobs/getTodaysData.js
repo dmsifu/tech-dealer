@@ -18,7 +18,7 @@ async function addDataToDB(){
                 getGraphicsCardDeals(),
                 getAudioDeals()
             ])
-        
+            
         const finished = {
             tvs: tvs,
             laptops: laptops,

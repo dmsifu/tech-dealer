@@ -47,16 +47,16 @@ const getFilteredDeals = async (req, res) => {
 
         const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
 
-        if(search !== undefined){
+        if(search !== 'null'){
 
-            const filteredDeals = deals[0][`${category}`].filter((deal)=> 
+            const filteredDeals = deals[0][`${category}`].filter( (deal) => 
                 deal.title.toLowerCase().includes(`${search.toLowerCase()}`) || deal.soldOn.toLowerCase().includes(`${search.toLowerCase()}`)
                 )
             const totalPages = Math.ceil(filteredDeals.length / limit)
 
             res.status(200).json({
                 totalPages: totalPages,
-                deals: filteredDeals
+                deals: filteredDeals.slice(parseInt(start),parseInt(end))
             })
         }
         else{
