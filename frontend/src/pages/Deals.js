@@ -42,7 +42,7 @@ function Deals({ category }) {
       }
       window.location.reload(false)
     }
-    else{
+    else if (page.target.textContent !== '...'){
       if(searchParams.get('search') === null){
         setSearchParams({page: page.target.textContent})
       }
@@ -51,7 +51,6 @@ function Deals({ category }) {
       }
       window.location.reload(false)
     }
-
   }
   
   return (

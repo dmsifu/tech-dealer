@@ -31,6 +31,8 @@ async function addDataToDB(){
         
     } catch (error) {
         console.log(error)
+        console.log('retrying scrape')
+        addDataToDB()
     }
 }
 

@@ -14,7 +14,6 @@ function SearchFilter({ setSearchParams, setCurrentSearch}) {
         <input type="text" id="search" />
         <label htmlFor="filter">Filters</label>
         <select name="filters" id="filter">
-            <option value="none">none</option>
             <option value="highest percent off">highest percent off</option>
             <option value="ascending">price ascending</option>
             <option value="descending">price descending</option>

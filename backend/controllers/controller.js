@@ -32,7 +32,7 @@ const getBestDeals = async (req, res) => {
     }
 }
 
-//@desc     get filtered deals
+//@desc     get deals based on if there is a search or filter
 //@route    GET /api/deals
 //@acess    Private
 const getFilteredDeals = async (req, res) => {
