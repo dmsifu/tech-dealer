@@ -41,25 +41,65 @@ const getFilteredDeals = async (req, res) => {
         const page = req.query.page
         const limit = req.query.limit 
         const search = req.query.search
+        const filter = req.query.filter
         
         const start = (page - 1) * limit
-        const end = page * limit
+        const end = page * limit        
 
         const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
 
         if(search !== 'null'){
-
             const filteredDeals = deals[0][`${category}`].filter( (deal) => 
                 deal.title.toLowerCase().includes(`${search.toLowerCase()}`) || deal.soldOn.toLowerCase().includes(`${search.toLowerCase()}`)
                 )
-            const totalPages = Math.ceil(filteredDeals.length / limit)
-
-            res.status(200).json({
-                totalPages: totalPages,
-                deals: filteredDeals.slice(parseInt(start),parseInt(end))
-            })
+            if(filter !== 'null'){
+                if(filter === 'descending'){
+                    const filteredDeals2 = filteredDeals.sort((a,b)=> parseInt(b['offerPrice'].match(/[\d.]+/g).join('')) - parseInt(a['offerPrice'].match(/[\d.]+/g).join('')))
+                    const totalPages = Math.ceil(filteredDeals2.length / limit)
+                    res.status(200).json({
+                        totalPages: totalPages,
+                        deals: filteredDeals2.slice(parseInt(start),parseInt(end))
+                    })
+                }
+                else{
+                    const filteredDeals2 = filteredDeals.sort((a,b)=> parseInt(a['offerPrice'].match(/[\d.]+/g).join('')) - parseInt(b['offerPrice'].match(/[\d.]+/g).join('')))   
+                    const totalPages = Math.ceil(filteredDeals2.length / limit)  
+                    res.status(200).json({
+                        totalPages: totalPages,
+                        deals: filteredDeals2.slice(parseInt(start),parseInt(end))
+                    })           
+                }
+            }
+            else{
+                const totalPages = Math.ceil(filteredDeals.length / limit)
+    
+                res.status(200).json({
+                    totalPages: totalPages,
+                    deals: filteredDeals.slice(parseInt(start),parseInt(end))
+                })
+            }
         }
-        else{
+        else if(filter !== 'null' && search === 'null'){
+            
+            if(filter === 'descending'){
+                const filteredDeals = deals[0][`${category}`].sort((a,b)=> parseInt(b['offerPrice'].match(/[\d.]+/g).join('')) - parseInt(a['offerPrice'].match(/[\d.]+/g).join('')))
+                const totalPages = Math.ceil(filteredDeals.length / limit)
+                res.status(200).json({
+                    totalPages: totalPages,
+                    deals: filteredDeals.slice(parseInt(start),parseInt(end))
+                })
+            }
+            else{
+                const filteredDeals = deals[0][`${category}`].sort((a,b)=> parseInt(a['offerPrice'].match(/[\d.]+/g).join('')) - parseInt(b['offerPrice'].match(/[\d.]+/g).join('')))   
+                const totalPages = Math.ceil(filteredDeals.length / limit)  
+                res.status(200).json({
+                    totalPages: totalPages,
+                    deals: filteredDeals.slice(parseInt(start),parseInt(end))
+                })           
+            }
+            
+        }
+        else if(search === 'null' && filter === 'null'){
             const totalPages = Math.ceil(deals[0][`${category}`].length / limit)
             res.status(200).json({
                 totalPages: totalPages,
@@ -67,8 +107,8 @@ const getFilteredDeals = async (req, res) => {
             })
         }
     }
-    catch(err){
-        res.status(400).json({err}) 
+    catch(error){
+        res.status(400).json({message: error}) 
     }
 }
 
