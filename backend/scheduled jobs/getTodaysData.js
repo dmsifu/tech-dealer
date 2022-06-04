@@ -31,18 +31,17 @@ async function addDataToDB(){
         
     } catch (error) {
         console.log(error)
-        console.log('retrying scrape')
-        addDataToDB()
     }
 }
 
 async function getTvDeals(){
     const bestbuyTvs = await getTechDealsBestBuy('abcat0101001')
     const neweggTvs = await getTechDealsNewegg('https://www.newegg.com/p/pl?Submit=StoreIM&Category=59&Depa=10&PageSize=96&N=4803')
-    const walmartTvs = await getTechDealsWalmart('https://www.walmart.com/browse/tv-video/shop-tvs-by-size/3944_1060825_2489948?facet=special_offers%3AReduced+Price')
+    //const walmartTvs = await getTechDealsWalmart('https://www.walmart.com/browse/tv-video/shop-tvs-by-size/3944_1060825_2489948?facet=special_offers%3AReduced+Price')
     const amazonTvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true')
 
-    const allTvs = [...bestbuyTvs, ...neweggTvs, ...walmartTvs, ...amazonTvs]
+    // const allTvs = [...bestbuyTvs, ...neweggTvs, ...walmartTvs, ...amazonTvs]
+    const allTvs = [...bestbuyTvs, ...neweggTvs, ...amazonTvs]
     return allTvs.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
     
 }

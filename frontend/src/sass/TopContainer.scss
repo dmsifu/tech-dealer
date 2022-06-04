@@ -1,3 +1,5 @@
+@use 'variables.scss';
+
 .top-container{
     display: flex;
     align-items: center;
@@ -7,7 +9,7 @@
 
     a{
         font-size: 2rem;
-        color: rgb(49, 100, 181);
+        color: variables.$primary-color;
         text-decoration: none;
         font-weight: bold;
     }

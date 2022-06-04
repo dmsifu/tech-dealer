@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from "axios";
 import DealCard from '../components/DealCard'
 import '../sass/DealsGrid.scss'
+import Timer from '../components/Timer';
 
 function Home() {
 

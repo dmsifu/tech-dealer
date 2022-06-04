@@ -1,3 +1,4 @@
+@use 'variables.scss';
 
 .pagination-container{
     display: flex;
@@ -7,21 +8,20 @@
 
 
     button{
-        margin-bottom: 20px;
-        margin-top: 20px;
+        margin-bottom: 30px;
         width: 4em;
         height: 4em;
         border: none;
         border-radius: 30px;
-        background-color: rgb(197, 202, 222);
-        color: rgb(49, 100, 181);
+        background-color: variables.$light-color;
+        color: variables.$primary-color;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         font-weight: bold;
         text-align: center;
         cursor: pointer;
         &:hover{
-            background-color: rgb(49, 100, 181);
-            color: rgb(231, 232, 238);
+            background-color: variables.$primary-color;
+            color: variables.$light-color;
         }
     }
 

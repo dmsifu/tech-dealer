@@ -1,10 +1,10 @@
-$red-price-color: rgb(212, 64, 64);
-$blue-text-color: rgb(49, 100, 181);
+@use 'variables.scss';
 
 .deals-grid-container{
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 50px;
 
     .deal-category{
         display: flex;
@@ -14,14 +14,13 @@ $blue-text-color: rgb(49, 100, 181);
         margin: 30px 0 20px 0;
         
         h1{
-            color: $blue-text-color;
+            color: variables.$primary-color;
             font-size: 1.8rem;
         }
         a{
             text-decoration: none;
-            color: $blue-text-color;
+            color: variables.$primary-color;
             font-size: 1.3rem;
-            font-weight: 500;
 
             &:hover{
                 text-decoration: underline;
@@ -52,7 +51,7 @@ $blue-text-color: rgb(49, 100, 181);
 
                     img{
                         object-fit: scale-down;
-                        height: 250px;
+                        height: 200px;
                         width: 250px;
                     }
                 }
@@ -66,7 +65,7 @@ $blue-text-color: rgb(49, 100, 181);
                         display: -webkit-box;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
-                        color: $blue-text-color;
+                        color: variables.$primary-color;
                         font-size: 1.2rem;
                         overflow: hidden;
 
@@ -76,7 +75,7 @@ $blue-text-color: rgb(49, 100, 181);
                     }
                 }
                 section{
-                    color: $blue-text-color;
+                    color: variables.$primary-color;
                     margin-top: 15px;
                     margin-left: 10px;
                 }
@@ -84,13 +83,13 @@ $blue-text-color: rgb(49, 100, 181);
                     margin-bottom: 5px;
                     .offer-price{
                         grid-area: offer;
-                        color: $red-price-color;
+                        color: variables.$important-color;
                         font-size: 1.7rem;
                         margin-left: 10px;
                     }
                     .original-price{
                         grid-area: original;
-                        color: $blue-text-color;
+                        color: variables.$primary-color;
                         text-decoration: line-through;
                         font-size: 1.2rem;
                         margin-left: 10px;
@@ -98,7 +97,7 @@ $blue-text-color: rgb(49, 100, 181);
                     .percent-off{
                         grid-area: percent;
                         font-size: 2.3rem;
-                        background-color: $red-price-color;
+                        background-color: variables.$important-color;
                         color: rgb(255, 255, 255);
                         align-self: center;
                         width: 90%;
