@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 function Timer() {
-  const [time, setTime] = useState()
   const date = new Date()
   
 

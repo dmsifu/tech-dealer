@@ -1,10 +1,17 @@
+import { motion } from 'framer-motion'
 
 function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, productImageLink, soldOn }) {
+
+  const DealCardVariants = {
+    visible: {opacity: 1},
+    hidden : {opacity: 0}
+  }
+
   return (
-    <div className="deal-card">
+    <motion.div className="deal-card">
       <a href={productLink}>
         <div className="deal-image">
-          <img src={productImageLink} alt={`Image for ${title}`} />
+          <img src={productImageLink} alt={title} />
         </div>
         <div className="title-container">
           <h2 className="title">{title}</h2>
@@ -16,7 +23,7 @@ function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, p
           <h2 className="percent-off">{`${percentOff} Off`}</h2>
         </div>
       </a>
-    </div>
+    </motion.div>
   )
 }
 

@@ -4,9 +4,15 @@ const cheerio = require('cheerio');
 const techDeals = require('../models/techDeals')
 
 async function scrapeTodaysData() {
-    //addDataToDB()
-    //const scheduleGetTodaysData =  cron.schedule('4 7 * * * 1-7', addDataToDB)
-    //scheduleGetTodaysData.start()
+    try {
+        //addDataToDB()
+        const scheduleGetTodaysData =  cron.schedule('* 1 * * 1-7', () => {
+            addDataToDB()
+        })
+        scheduleGetTodaysData.start()
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 async function addDataToDB(){
@@ -233,6 +239,5 @@ async function getTechDealsAmazon(url){
         return {message: error}
     }
 }
-
 
 module.exports = scrapeTodaysData

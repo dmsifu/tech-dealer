@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import '../sass/Pagination.scss'
 
 function Paginated({ totalPages, currentPage, handlePageChange }) {

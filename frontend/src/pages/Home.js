@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from "axios";
 import DealCard from '../components/DealCard'
 import '../sass/DealsGrid.scss'
-import Timer from '../components/Timer';
+import LoadingCard from '../components/LoadingCard';
 
 function Home() {
 
@@ -40,6 +40,10 @@ function Home() {
     ))
   }
 
+  function showLoad(){
+    return [1,2,3,4,5,6,7,8].map((e,i)=> <LoadingCard key={i}/>)
+  }
+
   return (
     <div className='deals-grid-container'>
         <div className='deal-category'>
@@ -47,28 +51,28 @@ function Home() {
             <a href="/tvs?page=1">show all tv deals</a>
         </div>
         <div className="deals-grid">
-            {bestTvDeals.length === 0 ? <h1>Loading Deals..</h1> : bestTvDeals}
+            {bestTvDeals.length === 0 ? showLoad() : bestTvDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST LAPTOP DEALS</h1>
             <a href="/laptops?page=1">show all laptop deals</a>
         </div>
         <div className="deals-grid">
-          {bestLaptopDeals.length === 0 ? <h1>Loading Deals..</h1> :bestLaptopDeals}
+          {bestLaptopDeals.length === 0 ? showLoad() :bestLaptopDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST GRAPHICS CARD DEALS</h1>
             <a href="/graphicscards?page=1">show all graphics card deals</a>
         </div>
         <div className="deals-grid">
-          {bestGraphicsCardDeals.length === 0 ? <h1>Loading Deals..</h1> : bestGraphicsCardDeals}
+          {bestGraphicsCardDeals.length === 0 ? showLoad() : bestGraphicsCardDeals}
         </div>
         <div className='deal-category'>
             <h1>TODAYS BEST AUDIO DEALS</h1>
             <a href="/audio?page=1">show all audio deals</a>
         </div>
         <div className="deals-grid">
-          {bestAudioDeals.length === 0 ? <h1>Loading Deals..</h1> : bestAudioDeals}
+          {bestAudioDeals.length === 0 ? showLoad() : bestAudioDeals}
         </div>
     </div>
   )

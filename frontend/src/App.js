@@ -1,12 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState, React } from 'react';
 import TopContainer from "./components/TopContainer";
 import Home from "./pages/Home";
 import Deals from './pages/Deals';
 
 function App() {
-  const [page, setPage] = useState(1)
-
   return (
     <div className="app">
       <TopContainer/>

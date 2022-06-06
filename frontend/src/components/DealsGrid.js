@@ -1,12 +1,13 @@
 import '../sass/DealsGrid.scss'
 import DealCard from './DealCard'
+import LoadingCard from './LoadingCard'
 
 function DealsGrid({ data }) {
 
   return (
     <div className='deals-grid-container'>
         <div className="deals-grid">
-            {data === undefined ? <h1>Loading Deals..</h1> : data.map((deal)=> 
+            {data === undefined ? [...new Array(16)].map((e,i)=> <LoadingCard key={i}/>): data.map((deal)=> 
               <DealCard 
                 key={deal._id} 
                 title={deal.title} 
