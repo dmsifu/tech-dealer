@@ -6,10 +6,10 @@ const techDeals = require('../models/techDeals')
 async function scrapeTodaysData() {
     try {
         //addDataToDB()
-        const scheduleGetTodaysData =  cron.schedule('* 1 * * 1-7', () => {
-            addDataToDB()
-        })
-        scheduleGetTodaysData.start()
+        // const scheduleGetTodaysData =  cron.schedule('* 1 * * 1-7', () => {
+        //     addDataToDB()
+        // })
+        // scheduleGetTodaysData.start()
     } catch (error) {
         console.log(error)
     }
@@ -43,11 +43,11 @@ async function addDataToDB(){
 async function getTvDeals(){
     const bestbuyTvs = await getTechDealsBestBuy('abcat0101001')
     const neweggTvs = await getTechDealsNewegg('https://www.newegg.com/p/pl?Submit=StoreIM&Category=59&Depa=10&PageSize=96&N=4803')
-    //const walmartTvs = await getTechDealsWalmart('https://www.walmart.com/browse/tv-video/shop-tvs-by-size/3944_1060825_2489948?facet=special_offers%3AReduced+Price')
+    const walmartTvs = await getTechDealsWalmart('https://www.walmart.com/browse/tv-video/shop-tvs-by-size/3944_1060825_2489948?facet=special_offers%3AReduced+Price')
     const amazonTvs = await getTechDealsAmazon('https://www.amazon.com/s?i=electronics&bbn=172659&rh=n%3A172659%2Cp_n_deal_type%3A23566065011&dc&fs=true')
 
-    // const allTvs = [...bestbuyTvs, ...neweggTvs, ...walmartTvs, ...amazonTvs]
-    const allTvs = [...bestbuyTvs, ...neweggTvs, ...amazonTvs]
+    const allTvs = [...bestbuyTvs, ...neweggTvs, ...walmartTvs, ...amazonTvs]
+    //const allTvs = [...bestbuyTvs, ...neweggTvs, ...amazonTvs]
     return allTvs.sort((a,b)=> parseInt(b['percentOff'].match(/[\d]+/g).join('')) - parseInt(a['percentOff'].match(/[\d]+/g).join('')))
     
 }
@@ -62,7 +62,7 @@ async function getLaptopDeals(){
 }
 async function getGraphicsCardDeals(){
     const bestbuyGraphicsCards = await getTechDealsBestBuy('abcat0507002')
-    const neweggGraphicsCards = await getTechDealsNewegg('https://www.newegg.com/p/pl?PageSize=96&N=100007709%204803&Order=3')
+    const neweggGraphicsCards = await getTechDealsNewegg('https://www.newegg.com/p/pl?PageSize=96&N=100007709%204803%204131&Order=3')
     const amazonGraphicsCards = await getTechDealsAmazon('https://www.amazon.com/s?i=computers&bbn=17923671011&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Cn%3A17923671011%2Cn%3A284822%2Cp_n_deal_type%3A23566065011')
 
     const allGraphicsCards = [...bestbuyGraphicsCards, ...neweggGraphicsCards, ...amazonGraphicsCards]
@@ -81,10 +81,10 @@ async function getAudioDeals(){
 async function getTechDealsBestBuy(category){
     try {
         const offers = []
-        for(let i = 1; i < 10; i++){
+        for(let i = 1; i < 15; i++){
             setTimeout(()=>{
                 return 
-            }, Math.floor(Math.random() * 3000) + 1000)
+            }, Math.floor(Math.random() * 3000) + (1500 * i))
 
             const res = await gotScraping(`https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&browsedCategory=${category}&cp=${i}&id=pcat17071&iht=n&ks=960&list=y&qp=currentoffers_facet%3DCurrent%20Deals~On%20Sale&sc=Global&st=categoryid%24${category}&type=page&usc=All%20Categories`)
             const $ = cheerio.load(res.body)
@@ -122,37 +122,40 @@ async function getTechDealsBestBuy(category){
 
 async function getTechDealsNewegg(url){
     try {
-        setTimeout(()=>{
-            return 
-        }, Math.floor(Math.random() * 3000) + 1000)
-
-        const res = await gotScraping(url)
-        const $ = cheerio.load(res.body)
         const offers = []
-        const listOfProducts = $('.item-cells-wrap.border-cells.items-grid-view.four-cells.expulsion-one-cell')
-    
-        listOfProducts.find('.item-container').each((i, element) => {
-            const name = $(element).find('.item-title').text()
-            const offerPriceOne = $(element).find('.price-current strong').text()
-            const offerPriceTwo = $(element).find('.price-current sup').text()
-            const originalPrice = $(element).find('.price-was-data').text()
-            const productLink = $(element).find('.item-title').attr('href')
-            const productImageLink = $(element).find('img').attr('src')
-            if(originalPrice === '' || offerPriceOne === '' || offerPriceTwo === ''){return}
-            const offerPrice = `$${offerPriceOne}${offerPriceTwo}`
-            const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
+        for (let i = 1; i <= 4; i++) {
+            setTimeout(()=>{
+                return 
+            }, Math.floor(Math.random() * 3000) + (1500 * i))
 
+            const res = await gotScraping(`${url}&page=${i}`)
+            const $ = cheerio.load(res.body)
+            const listOfProducts = $('.item-cells-wrap.border-cells.items-grid-view.four-cells.expulsion-one-cell')
+            
+            listOfProducts.find('.item-container').each((i, element) => {
+                const name = $(element).find('.item-title').text()
+                const offerPriceOne = $(element).find('.price-current strong').text()
+                const offerPriceTwo = $(element).find('.price-current sup').text()
+                const originalPrice = $(element).find('.price-was-data').text()
+                const productLink = $(element).find('.item-title').attr('href')
+                const productImageLink = $(element).find('img').attr('src')
+                if(originalPrice === '' || offerPriceOne === '' || offerPriceTwo === ''){return}
+                const offerPrice = `$${offerPriceOne}${offerPriceTwo}`
+                const percentOff = 100 - Math.floor(parseFloat(offerPrice.match(/[.\d]+/g).join('')) / parseFloat(originalPrice.match(/[.\d]+/g).join('')) * 100)
     
-            offers.push({
-                title: name,
-                offerPrice: offerPrice,
-                originalPrice: originalPrice,
-                percentOff: `${percentOff}%`,
-                productLink: productLink,
-                productImageLink: productImageLink,
-                soldOn: 'Newegg'
+        
+                offers.push({
+                    title: name,
+                    offerPrice: offerPrice,
+                    originalPrice: originalPrice,
+                    percentOff: `${percentOff}%`,
+                    productLink: productLink,
+                    productImageLink: productImageLink,
+                    soldOn: 'Newegg'
+                })
             })
-        })
+            if($('button[title=Next]').attr('disabled') !== undefined){break}
+        }
         return offers
         
     } catch (error) {
@@ -163,10 +166,10 @@ async function getTechDealsNewegg(url){
 async function getTechDealsWalmart(url){
     try {
         const offers = []
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 15; i++) {
             setTimeout(()=>{
                 return 
-            }, Math.floor(Math.random() * 3000) + 1000)
+            }, Math.floor(Math.random() * 3000) + (1500 * i))
 
             const res = await gotScraping(`${url}&page=${i}&affinityOverride=default`)
             const $ = cheerio.load(res.body)
@@ -204,10 +207,10 @@ async function getTechDealsWalmart(url){
 async function getTechDealsAmazon(url){
     try {
         const offers = []
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 15; i++) {
             setTimeout(()=>{
                 return 
-            }, Math.floor(Math.random() * 3000) + 1000)
+            }, Math.floor(Math.random() * 3000) + (1500 * i))
     
             const res = await gotScraping(`${url}&page=${i}`)
             const $ = cheerio.load(res.body)
@@ -239,5 +242,6 @@ async function getTechDealsAmazon(url){
         return {message: error}
     }
 }
+
 
 module.exports = scrapeTodaysData
