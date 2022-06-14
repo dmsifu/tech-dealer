@@ -40,18 +40,17 @@ const getFilteredDeals = async (req, res) => {
         const category = req.query.category
         const page = req.query.page
         const limit = req.query.limit 
-        const search = req.query.search
+        const search = req.query.search !== 'null' ? req.query.search.split(' ') : req.query.search
         const filter = req.query.filter
-        
         const start = (page - 1) * limit
         const end = page * limit        
 
         const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
 
         if(search !== 'null'){
-            const filteredDeals = deals[0][`${category}`].filter( (deal) => 
-                deal.title.toLowerCase().includes(`${search.toLowerCase()}`) || deal.soldOn.toLowerCase().includes(`${search.toLowerCase()}`)
-                )
+            const filteredDeals = deals[0][`${category}`].filter( (deal) =>
+                search.every(keyword => deal.title.toLowerCase().includes(`${keyword.toLowerCase()}`) || deal.soldOn.toLowerCase().includes(`${keyword.toLowerCase()}`))
+            )
             if(filter !== 'null'){
                 if(filter === 'descending'){
                     const filteredDeals2 = filteredDeals.sort((a,b)=> parseInt(b['offerPrice'].match(/[\d.]+/g).join('')) - parseInt(a['offerPrice'].match(/[\d.]+/g).join('')))

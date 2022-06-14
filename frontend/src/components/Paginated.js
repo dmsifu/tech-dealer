@@ -3,7 +3,7 @@ import '../sass/Pagination.scss'
 function Paginated({ totalPages, currentPage, handlePageChange }) {
     
     function createButtons(array){
-        return array.map((e,i) => <button key={`${e}${i}`} onClick={handlePageChange} style={e === currentPage ? {backgroundColor: 'rgb(49, 100, 181)', color: '#fff'} : {}} >{e}</button>)
+        return array.map((e,i) => <button key={`${e}${i}`} onClick={handlePageChange} style={e === currentPage ? {backgroundColor: 'rgb(21, 26, 36)', color: '#fff'} : {}} >{e}</button>)
     }
     
     function createPagination(totalPages, currentPage){

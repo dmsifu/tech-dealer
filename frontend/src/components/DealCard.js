@@ -2,13 +2,8 @@ import { motion } from 'framer-motion'
 
 function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, productImageLink, soldOn }) {
 
-  const DealCardVariants = {
-    visible: {opacity: 1},
-    hidden : {opacity: 0}
-  }
-
   return (
-    <motion.div className="deal-card">
+    <motion.div className="deal-card" whileHover={{ y: 5 }}>
       <a href={productLink}>
         <div className="deal-image">
           <img src={productImageLink} alt={title} />
