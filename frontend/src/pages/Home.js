@@ -11,18 +11,35 @@ function Home() {
   const [bestLaptopDeals, setLaptopBestDeals] = useState([])
   const [bestGraphicsCardDeals, setGraphicsCardBestDeals] = useState([])
   const [bestAudioDeals, setAudioBestDeals] = useState([])
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
+  });
 
   useEffect(() => {     
     axios.get('/api/deals/bestDeals', {headers: {'Content-Type': 'application/json'}})
-        .then(res => res.data)
-        .then(data => {
-          setTvBestDeals(showDeals(data.tvs))
-          setLaptopBestDeals(showDeals(data.laptops))
-          setGraphicsCardBestDeals(showDeals(data.graphicsCards))
-          setAudioBestDeals(showDeals(data.audio))
-        })
-        .catch(err => console.log(err))
-  
+      .then(res => res.data)
+      .then(data => {
+        setTvBestDeals(showDeals(data.tvs))
+        setLaptopBestDeals(showDeals(data.laptops))
+        setGraphicsCardBestDeals(showDeals(data.graphicsCards))
+        setAudioBestDeals(showDeals(data.audio))
+      })
+      .catch(err => console.log(err))
+
+    if (typeof window !== "undefined") {
+      function handleResize() {
+          setWindowSize({
+              width: window.innerWidth,
+              height: window.innerHeight
+          })
+      }
+
+      window.addEventListener("resize", handleResize)
+      handleResize()
+
+      return () => window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
   function showDeals(deals){
@@ -47,7 +64,7 @@ function Home() {
 
   return (
     <>
-      <Hero />
+      {windowSize.width > 1000 && <Hero /> }
       <div className='deals-grid-container'>
           <div className='deal-category'>
               <h1>TODAYS BEST TV DEALS</h1>

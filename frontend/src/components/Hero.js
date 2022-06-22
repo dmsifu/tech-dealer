@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react';
 import '../sass/Hero.scss'
 
 function Hero() {
@@ -7,8 +8,8 @@ function Hero() {
             y: [-240,192],
             transition: {
                 duration: 7,
-                 repeat: Infinity,
-                 ease: "linear"
+                repeat: Infinity,
+                ease: "linear"
             }
         }
     }

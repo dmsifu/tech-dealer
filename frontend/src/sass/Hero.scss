@@ -16,20 +16,21 @@
     }
     h2{
         font-size: clamp(1rem, 2vw + .6rem, 2.5rem);
+        color: variables.$important-color;
+        text-shadow: 0px 5px 10px rgba(38,113,243,0.5);
     }
 
     .hero-animated-container{
         list-style: none;
         width: 25%;
-        clip-path: inset(25% 0px 25% 0px);
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 26%, rgba(0, 0, 0, 1),rgba(0, 0, 0, 1),rgba(0, 0, 0, 0) 75%);
         li{
             font-size: clamp(1.3rem, 3vw + 1rem, 4.5rem);
             font-weight: bold;
+            text-align: center;
             color: variables.$important-color;
+            text-shadow: 0px 5px 10px rgba(38,113,243,0.5);
+            cursor: default;
         }
-    }
-
-    @media (max-width: 1000px) {
-        display: none;
     }
 }

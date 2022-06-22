@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import DealCard from '../components/DealCard'
+import Hero from '../components/Hero'
 import TopContainer from '../components/TopContainer'
 import Home from '../pages/Home'
 
@@ -17,7 +18,13 @@ describe('components on homepage render on screen', ()=> {
         expect(homeText).toBeInTheDocument()
     })
 
-    test('DealCard renders all html with proper text', () => {
+    test('Hero section renders', () => {
+        render(<Hero />)
+        const heroText = screen.getByText(/All in one place/i)
+        expect(heroText).toBeInTheDocument()
+    })
+
+    test('DealCard renders', () => {
         render(<DealCard  
             title={'title'} 
             offerPrice={'offerPrice'} 
