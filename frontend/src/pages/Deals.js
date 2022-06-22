@@ -75,7 +75,7 @@ function Deals({ category }) {
   return (
     <main className='deals-container'>
       <SearchFilter setSearchParams={setSearchParams} currentSearch={searchParams.get('search')}/>
-      <DealsGrid data={categoryDeals.deals}/>
+      <DealsGrid data={categoryDeals.deals} numOfDealsShown={16}/>
       {totalPages && <Paginated totalPages={totalPages} currentPage={parseInt(searchParams.get('page'))} handlePageChange={handlePageChange} />}
     </main>
   )

@@ -5,11 +5,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    width: 90%;
+    padding: 7px;
+    width: 88%;
 
     a{
-        font-size: 2rem;
+        font-size: clamp(1.2rem, 4vw + .6rem, 3rem);
         color: variables.$primary-color;
         text-decoration: none;
         font-weight: bold;

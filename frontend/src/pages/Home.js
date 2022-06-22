@@ -3,6 +3,7 @@ import axios from "axios";
 import DealCard from '../components/DealCard'
 import '../sass/DealsGrid.scss'
 import LoadingCard from '../components/LoadingCard';
+import Hero from '../components/Hero';
 
 function Home() {
 
@@ -45,36 +46,39 @@ function Home() {
   }
 
   return (
-    <div className='deals-grid-container'>
-        <div className='deal-category'>
-            <h1>TODAYS BEST TV DEALS</h1>
-            <a href="/tvs?page=1">show all tv deals</a>
-        </div>
-        <div className="deals-grid">
-            {bestTvDeals.length === 0 ? showLoad() : bestTvDeals}
-        </div>
-        <div className='deal-category'>
-            <h1>TODAYS BEST LAPTOP DEALS</h1>
-            <a href="/laptops?page=1">show all laptop deals</a>
-        </div>
-        <div className="deals-grid">
-          {bestLaptopDeals.length === 0 ? showLoad() :bestLaptopDeals}
-        </div>
-        <div className='deal-category'>
-            <h1>TODAYS BEST GRAPHICS CARD DEALS</h1>
-            <a href="/graphicscards?page=1">show all graphics card deals</a>
-        </div>
-        <div className="deals-grid">
-          {bestGraphicsCardDeals.length === 0 ? showLoad() : bestGraphicsCardDeals}
-        </div>
-        <div className='deal-category'>
-            <h1>TODAYS BEST AUDIO DEALS</h1>
-            <a href="/audio?page=1">show all audio deals</a>
-        </div>
-        <div className="deals-grid">
-          {bestAudioDeals.length === 0 ? showLoad() : bestAudioDeals}
-        </div>
-    </div>
+    <>
+      <Hero />
+      <div className='deals-grid-container'>
+          <div className='deal-category'>
+              <h1>TODAYS BEST TV DEALS</h1>
+              <a href="/tvs?page=1">show all tv deals</a>
+          </div>
+          <div className="deals-grid">
+              {bestTvDeals.length === 0 ? showLoad() : bestTvDeals}
+          </div>
+          <div className='deal-category'>
+              <h1>TODAYS BEST LAPTOP DEALS</h1>
+              <a href="/laptops?page=1">show all laptop deals</a>
+          </div>
+          <div className="deals-grid">
+            {bestLaptopDeals.length === 0 ? showLoad() :bestLaptopDeals}
+          </div>
+          <div className='deal-category'>
+              <h1>TODAYS BEST GRAPHICS CARD DEALS</h1>
+              <a href="/graphicscards?page=1">show all graphics card deals</a>
+          </div>
+          <div className="deals-grid">
+            {bestGraphicsCardDeals.length === 0 ? showLoad() : bestGraphicsCardDeals}
+          </div>
+          <div className='deal-category'>
+              <h1>TODAYS BEST AUDIO DEALS</h1>
+              <a href="/audio?page=1">show all audio deals</a>
+          </div>
+          <div className="deals-grid">
+            {bestAudioDeals.length === 0 ? showLoad() : bestAudioDeals}
+          </div>
+      </div>
+    </>
   )
 }
 

@@ -9,7 +9,7 @@ function DealCard({ title, offerPrice, originalPrice, percentOff, productLink, p
       controls.start({ 'boxShadow': '0px 5px 10px 0px rgba(38,113,243,0.9)' , y: 3, transition: { delay: .15 }})
     }
     else{
-      controls.start({ 'boxShadow': 'none', y: 0 })
+      controls.start({ 'boxShadow': '0px 5px 10px 0px rgba(38,113,243,0)', y: 0 })
     }
   }
 
