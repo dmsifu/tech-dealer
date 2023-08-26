@@ -5,10 +5,12 @@ const techDeals = require('../models/techDeals')
 //@acess    Private
 const getAllDeals = async (req, res) => {
     try{
-        const deals = await techDeals.findById('62884208a91fad74a652b810')
+        const deals = await techDeals.find({_id: '64ea55827b34f541e73809e2'})
+        
         res.status(200).json(deals)
     }
     catch(err){
+        console.log(err)
         res.status(400).json({err}) 
     }
 }
@@ -19,7 +21,7 @@ const getAllDeals = async (req, res) => {
 const getBestDeals = async (req, res) => {
     try{
         const bestDeals = await techDeals
-        .find({_id: '62884208a91fad74a652b810'})
+        .find({_id: '64ea55827b34f541e73809e2'})
         .slice('tvs',8)
         .slice('laptops',8)
         .slice('graphicsCards',8)
@@ -45,7 +47,7 @@ const getFilteredDeals = async (req, res) => {
         const start = (page - 1) * limit
         const end = page * limit        
 
-        const deals = await techDeals.find({_id: '62884208a91fad74a652b810'}, `${category}`)
+        const deals = await techDeals.find({_id: '64ea55827b34f541e73809e2'}, `${category}`)
 
         if(search !== 'null'){
             const filteredDeals = deals[0][`${category}`].filter( (deal) =>

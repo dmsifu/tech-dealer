@@ -9,7 +9,7 @@ connectDB()
 
 const app = express()
 
-scrapeTodaysData()
+//scrapeTodaysData()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

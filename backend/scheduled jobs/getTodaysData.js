@@ -5,7 +5,7 @@ const techDeals = require('../models/techDeals')
 
 async function scrapeTodaysData() {
     try {
-        //addDataToDB()
+        addDataToDB()
         // const scheduleGetTodaysData =  cron.schedule('* 1 * * 1-7', () => {
         //     addDataToDB()
         // })
@@ -25,14 +25,13 @@ async function addDataToDB(){
                 getAudioDeals()
             ])
             
-        const finished = {
+        const finished = new techDeals({
             tvs: tvs,
             laptops: laptops,
             graphicsCards: graphicsCards,
             audio: audio
-        }
-
-        await techDeals.findOneAndReplace({_id: '62884208a91fad74a652b810'}, finished)
+        })
+        await finished.save()
         console.log('data added to db')
         
     } catch (error) {

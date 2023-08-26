@@ -1,10 +1,10 @@
 const mongoose  = require('mongoose')
 
+//tech Deals schema
 const techDeals = mongoose.Schema(
     {
         tvs: [{
             title: String,
-            brand: String,
             offerPrice: String,
             originalPrice: String,
             percentOff: String,
@@ -14,7 +14,6 @@ const techDeals = mongoose.Schema(
         }],
         laptops: [{
             title: String,
-            brand: String,
             offerPrice: String,
             originalPrice: String,
             percentOff: String,
@@ -24,7 +23,6 @@ const techDeals = mongoose.Schema(
         }],
         graphicsCards: [{
             title: String,
-            brand: String,
             offerPrice: String,
             originalPrice: String,
             percentOff: String,
@@ -34,7 +32,6 @@ const techDeals = mongoose.Schema(
         }],
         audio: [{
             title: String,
-            brand: String,
             offerPrice: String,
             originalPrice: String,
             percentOff: String,
@@ -44,4 +41,4 @@ const techDeals = mongoose.Schema(
         }]
 })
 
-module.exports = mongoose.model('techDeals', techDeals)
+module.exports = mongoose.model('techdeals', techDeals)

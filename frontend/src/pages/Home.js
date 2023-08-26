@@ -17,7 +17,7 @@ function Home() {
   });
 
   useEffect(() => {     
-    axios.get('/api/deals/bestDeals', {headers: {'Content-Type': 'application/json'}})
+    axios.get('api/deals/bestDeals', {headers: {'Content-Type': 'application/json'}})
       .then(res => res.data)
       .then(data => {
         setTvBestDeals(showDeals(data.tvs))
