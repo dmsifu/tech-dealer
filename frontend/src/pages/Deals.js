@@ -13,7 +13,7 @@ function Deals({ category }) {
   const [totalPages, setTotalPages] = useState(null)
 
   useEffect(() => {     
-    axios.get(`/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16&search=${searchParams.get('search')}&filter=${searchParams.get('filter')}`)
+    axios.get(`https://tech-dealer-server.onrender.com/api/deals?category=${category}&page=${searchParams.get('page')}&limit=16&search=${searchParams.get('search')}&filter=${searchParams.get('filter')}`)
       .then(res => res.data)
       .then(data => {
         setCategoryDeals(data)
