@@ -1,7 +1,7 @@
 # Tech Dealer
 
 Tech Dealer updates daily with electronics deals across several major retailers and gives you the best offers for smart tvs, laptops, graphics Cards, and audio!
-https://techdealer.herokuapp.com/
+https://tech-dealer.onrender.com/
 
 ![techdealer](https://user-images.githubusercontent.com/97478849/173731792-bfb26f7a-16a4-4cb2-9399-41339ab632ec.gif)
 
@@ -12,7 +12,7 @@ https://techdealer.herokuapp.com/
 - NodeJS for the back-end
 - Framer Motion for animations
 - Sass for styling
-- Cheerio for parsing the html
+- Cheerio for parsing raw html after scraping
 
 # Things I learned
 - Web scraping using Cheerio 
