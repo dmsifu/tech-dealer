@@ -17,5 +17,9 @@
     "got-scraping": "^3.2.15",
     "mongoose": "^7.4.5",
     "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1"
   }
 }
