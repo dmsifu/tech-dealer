@@ -2,24 +2,19 @@
   "name": "techdealer",
   "version": "1.0.0",
   "description": "tech deal finder",
-  "main": "server.js",
   "scripts": {
     "start": "node backend/server.js --ignore frontend",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
+    "install-server": "cd backend && npm install",
+    "install-client": "cd frontend && npm install",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "build-client": "cd frontend && npm run build"
   },
   "author": "dmsifu",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.4.0",
-    "cheerio": "^1.0.0-rc.10",
-    "dotenv": "^16.0.0",
-    "express": "^4.18.1",
-    "got-scraping": "^3.2.9",
-    "mongoose": "^6.3.3",
-    "node-cron": "^3.0.0"
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "concurrently": "^7.2.0",
