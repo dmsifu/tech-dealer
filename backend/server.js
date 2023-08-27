@@ -8,7 +8,7 @@ const scrapeTodaysData = require('./scheduled jobs/getTodaysData')
 
 //middleware
 const corsOptions = {
-    origin: "http://localhost:3000"
+    origin: "https://tech-dealer.onrender.com/"
 }
 
 connectDB()
